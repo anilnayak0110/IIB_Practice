@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MappingNodeWithMysqlDB">
+  <XSDCollection href="platform:/resource/MappingNodeWithMysqlDB/mapping.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MappingNodeWithMysqlDB/mapping.xsd#//P;XSDElementDeclaration" name="P"/>
+    <complexType baseType="mlib://MappingNodeWithMysqlDB#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MappingNodeWithMysqlDB/mapping.xsd#//NewType;XSDComplexTypeDefinition" name="NewType"/>
+  </XSDCollection>
+<XSDCollection href="platform:/resource/MappingNodeWithOracleDB/mapping.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MappingNodeWithOracleDB/mapping.xsd#//P;XSDElementDeclaration" name="P"/>
+    <complexType baseType="mlib://MappingNodeWithOracleDB#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MappingNodeWithOracleDB/mapping.xsd#//NewType;XSDComplexTypeDefinition" name="NewType"/>
+  </XSDCollection>
+</MessageBroker>

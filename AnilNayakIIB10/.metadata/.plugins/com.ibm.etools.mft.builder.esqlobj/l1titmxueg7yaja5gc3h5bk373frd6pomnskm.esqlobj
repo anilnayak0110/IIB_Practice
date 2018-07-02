@@ -1,0 +1,7 @@
+CREATE COMPUTE MODULE DemoSample_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.XMLNSC.result.emp = COALESCE(InputRoot.XMLNSC.msg.emp4,'abc');
+		RETURN TRUE;
+	END;
+END MODULE;

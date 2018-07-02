@@ -1,0 +1,50 @@
+CREATE COMPUTE MODULE addExtraElement_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE addExtraElementsInXml() BEGIN
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.CustomerID       = InputRoot.XMLNSC.Order.CustomerDetails.CustomerID;
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.FullName         = InputRoot.XMLNSC.Order.CustomerDetails.Name.Title        ||''||
+		                                                               InputRoot.XMLNSC.Order.CustomerDetails.Name.FirstName    ||''||
+		                                                               InputRoot.XMLNSC.Order.CustomerDetails.Name.Surname;
+	   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Street   = InputRoot.XMLNSC.Order.CustomerDetails.Address.Address1  ||''||
+	                                                                   InputRoot.XMLNSC.Order.CustomerDetails.Address.Address2;
+	                                                                   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Town     = InputRoot.XMLNSC.Order.CustomerDetails.Address.Town;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.State    = InputRoot.XMLNSC.Order.CustomerDetails.Address.State;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Country  = InputRoot.XMLNSC.Order.CustomerDetails.Address.Country;
+	    
+	    SET OutputRoot.XMLNSC.Order.OrderStatus                      = 'Rejected';
+	    
+	    SET OutputRoot.XMLNSC.Order.Items.Item[]                     = InputRoot.XMLNSC.Order.Items.Item[];
+	    SET OutputRoot.XMLNSC.Order.TotalItems                       = CARDINALITY(InputRoot.XMLNSC.Order.Items.Item[]);
+	   
+	    
+	    
+	    
+	    
+	                                                           
+	   
+	END;
+END MODULE;

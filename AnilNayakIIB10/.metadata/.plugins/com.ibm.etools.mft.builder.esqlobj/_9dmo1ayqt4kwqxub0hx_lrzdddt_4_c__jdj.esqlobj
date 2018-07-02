@@ -1,0 +1,18 @@
+CREATE FILTER MODULE filterFlow_Filter
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		RETURN FilterMessage();
+	END;
+	
+	
+	CREATE PROCEDURE FilterMessage( ) RETURNS BOOLEAN
+	BEGIN
+		IF Root.Employee.name = 'Anil' THEN
+			RETURN TRUE;
+		ELSE
+			RETURN FALSE;
+		END IF;
+	END;
+
+END MODULE;

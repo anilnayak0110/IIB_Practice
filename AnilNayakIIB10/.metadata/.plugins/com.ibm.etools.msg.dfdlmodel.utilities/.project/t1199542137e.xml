@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="DatabaseInputApp">
+  <XSDCollection href="platform:/resource/DatabaseInputApp/database/database/database.xsd" prefix="databasedatabase" targetNamespace="http://database/database">
+    <element href="platform:/resource/DatabaseInputApp/database/database/database.xsd#//employee;XSDElementDeclaration" name="employee" type="mlib://DatabaseInputApp#/-/complexType{http://database/database}employeeType"/>
+    <complexType baseType="mlib://DatabaseInputApp#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/DatabaseInputApp/database/database/database.xsd#//employeeType;XSDComplexTypeDefinition" name="employeeType"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/DatabaseInputApp/test/test/test.xsd" prefix="testtest" targetNamespace="http://test/test">
+    <element href="platform:/resource/DatabaseInputApp/test/test/test.xsd#//employee;XSDElementDeclaration" name="employee" type="mlib://DatabaseInputApp#/-/complexType{http://test/test}employeeType"/>
+    <complexType baseType="mlib://DatabaseInputApp#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/DatabaseInputApp/test/test/test.xsd#//employeeType;XSDComplexTypeDefinition" name="employeeType"/>
+  </XSDCollection>
+</MessageBroker>

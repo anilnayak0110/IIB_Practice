@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="Employees">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="Employee" type="employeeType" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    		</xsd:sequence>
+    	</xsd:complexType></xsd:element>
+
+    <xsd:complexType name="employeeType">
+    	<xsd:sequence>
+    		<xsd:element name="EID" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+    		<xsd:element name="ENAME" type="xsd:string" minOccurs="0" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

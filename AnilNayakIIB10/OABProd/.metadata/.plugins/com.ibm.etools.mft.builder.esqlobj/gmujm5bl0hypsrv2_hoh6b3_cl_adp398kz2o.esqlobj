@@ -1,0 +1,78 @@
+CREATE COMPUTE MODULE ACH_TXN_ReportInsertDB_Compute
+	DECLARE SCH_NAME EXTERNAL CHARACTER;
+	DECLARE TXN_REPORT_TABLE EXTERNAL CHARACTER;
+
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+	     CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		CALL TransactionStatusInsertDB();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE TransactionStatusInsertDB() BEGIN
+		DECLARE DB ROW;
+		DECLARE INREF REFERENCE TO InputRoot.XMLNSC;
+		DECLARE TXNREF REFERENCE TO INREF.*:txReport;
+		DECLARE RECORDREF REFERENCE TO INREF.*:txReport.*:details[>];
+
+		DECLARE OriginalTxnId,Status,Reason,AddtlInfo,settlementDate,
+		sessionSequence,currency,participant,settlementRetry,type,onus,amount CHARACTER;
+
+		SET settlementDate    = TXNREF.(XMLNSC.Attribute)settlementDate;
+		SET sessionSequence   = TXNREF.(XMLNSC.Attribute)sessionSequence;
+		SET currency          = TXNREF.(XMLNSC.Attribute)currency;
+		SET participant       = TXNREF.(XMLNSC.Attribute)participant;
+		SET settlementRetry   = TXNREF.(XMLNSC.Attribute)settlementRetry;
+
+		WHILE LASTMOVE(RECORDREF) DO		    
+			SET OriginalTxnId = RECORDREF.(XMLNSC.Attribute)id;
+			SET Status        = RECORDREF.(XMLNSC.Attribute)state;
+			SET Reason        = RECORDREF.(XMLNSC.Attribute)reason;
+			SET AddtlInfo     = RECORDREF.(XMLNSC.Attribute)additionalInfo;
+			SET type          = RECORDREF.(XMLNSC.Attribute)type;
+			SET onus          = RECORDREF.(XMLNSC.Attribute)onus;
+			SET amount        = RECORDREF.(XMLNSC.Attribute)amount;
+
+			SET DB.ID[]       = SELECT J.ID FROM Database.{SCH_NAME}.{TXN_REPORT_TABLE} AS J WHERE J.ID =OriginalTxnId;
+			IF DB.ID.ID IS NULL THEN
+				
+				INSERT INTO Database.{SCH_NAME}.{TXN_REPORT_TABLE}
+				(
+					SETTLEMENTDATE,
+					SESSIONSEQUENCE,
+					CURRENCY,
+					PARTICIPANT,
+					SETTLEMENTRETRY,
+					ID,
+					TYPE,
+					AMOUNT,
+					STATE,
+					REASON,
+					ADDITIONALINFO,
+					ONUS
+				)
+				VALUES(settlementDate,sessionSequence,currency,participant,settlementRetry,OriginalTxnId,type,amount,Status,Reason,AddtlInfo,onus);
+			ELSE
+                
+			END IF;			
+
+
+			MOVE RECORDREF NEXTSIBLING;
+		END WHILE;
+
+	END;
+END MODULE;

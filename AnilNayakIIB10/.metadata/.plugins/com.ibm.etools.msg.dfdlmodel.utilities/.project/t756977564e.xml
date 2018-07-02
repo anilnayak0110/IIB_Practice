@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="TDS_TO_XML">
+  <XSDCollection href="platform:/resource/TDS_TO_XML/emp.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/CommaSeparatedFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+    <element href="platform:/resource/TDS_TO_XML/emp.xsd#//Data;XSDElementDeclaration" name="Data"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/TDS_TO_XML/IBMdefined/CommaSeparatedFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+</MessageBroker>

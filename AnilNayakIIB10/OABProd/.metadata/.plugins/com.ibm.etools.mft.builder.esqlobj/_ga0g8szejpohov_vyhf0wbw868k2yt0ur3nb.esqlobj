@@ -1,0 +1,232 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+
+
+		CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO',' -------------------------') INTO rc;
+
+		SET configValues.values[] = SELECT C.BANK_PREFIX,C.INSTAGT_FN_BICFI,C.MAX_NO_OF_TXNS FROM Database.{SCHEMA_NAME}.{ACH_CONFIG_VALUES} AS C;
+		CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Fetching Message ID from Header table where txn status is DCI_CBS_CRDT_OC_SUCCESS or DCI_CBS_CRDT_OC_FAILED') INTO rc;
+		--========| Fetching data from DCI_GP_HEADER_INFO table where corresponding txns status is DCI_CBS_CRDT_OC_SUCCESS or DCI_CBS_CRDT_OC_FAILED |=======--
+
+		DECLARE i INTEGER;
+		SET Environment.i = 1;
+		-- Get all batches which need to be send
+		DECLARE sqlQuery CHARACTER 'SELECT  GP.DCI_GP_HEADER_ID FROM DCI_GP_HEADER_INFO  GP,DCI_TXN_INFO  T WHERE GP.DCI_GP_HEADER_ID = T.DCI_GP_HDR_ID_TXN_FK AND (T.STATUS = ? OR T.STATUS =?) GROUP BY GP.DCI_GP_HEADER_ID' ;
+		DECLARE headerRef ROW;
+		SET Environment.Batchs.Batch[] = PASSTHRU( sqlQuery TO Database.{DSN} VALUES ('DCI_CBS_CRDT_OC_SUCCESS', 'DCI_CBS_CRDT_OC_FAILED'));
+		FOR eachBatch AS Environment.Batchs.Batch[] DO
+			CALL CopyEntireMessage(eachBatch.DCI_GP_HEADER_ID);
+		END FOR;
+		RETURN FALSE ;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage(IN aBatchKey FLOAT) BEGIN
+		DECLARE process BOOLEAN;
+		CALL getTxns(aBatchKey) INTO process;
+		IF process = true THEN
+			/* Keep checking for each generated message id if it is unique...*/
+			UniqueID : LOOP
+				-- Generate message id...
+				SET bchId = configValues.values.BANK_PREFIX ||
+				'1' ||
+				'I' ||
+				random(7) ;
+				IF SELECT COUNT(*) FROM Database.{SCHEMA_NAME}.{DC_TXN_TABLE} AS DC WHERE DC.MSG_ID = bchId = 0 THEN
+					-- If we are here, this means it is unique, So exit from this hill
+					LEAVE UniqueID;
+				END IF;
+			END LOOP UniqueID;
+			--=============| Creating ISO Header |==============--
+			DECLARE Txn_Count INTEGER 1;
+			SET OutputRoot.XMLNSC.ns4:Document.(XMLNSC.NamespaceDecl)xmlns = ns4;
+			SET OutputRoot.XMLNSC.ns4:Document.(XMLNSC.NamespaceDecl)xmlns:ns3 = ns3;
+
+			SET OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt.ns4:GrpHdr = '';
+			DECLARE isogrpheader REFERENCE TO OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt.ns4:GrpHdr;
+			SET isogrpheader.ns4:MsgId = bchId;
+			SET isogrpheader.ns4:CreDtTm = CAST(CURRENT_TIMESTAMP as CHARACTER FORMAT 'YYYY-MM-dd''T''HH:mm:ss.sss+hh:mm');
+			SET isogrpheader.ns4:InstgAgt.ns4:FinInstnId.ns4:BICFI = configValues.values.INSTAGT_FN_BICFI;
+			SET isogrpheader.ns4:InstdAgt.ns4:FinInstnId.ns4:BICFI = outValues.values[I].INST_AGT_FIN_ID_BICFI;
+			/* we are getting environment xmlnsc  */
+			SET Success= SELECT COUNT(*) FROM Environment.XMLNSC.Result.values[] AS S WHERE S.STATUS= 'DCI_CBS_CRDT_OC_SUCCESS';
+			SET Failure= SELECT COUNT(*) FROM Environment.XMLNSC.Result.values[] AS F WHERE F.STATUS= 'DCI_CBS_CRDT_OC_FAILED';
+
+			SET OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt.ns4:OrgnlGrpInfAndSts = '';
+			DECLARE IsoOrgInfSts REFERENCE TO OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt.ns4:OrgnlGrpInfAndSts;
+
+			IF Success= Environment.Number THEN
+				SET IsoOrgInfSts.ns4:OrgnlMsgId = outValues.values[I].MSG_ID;
+				SET IsoOrgInfSts.ns4:OrgnlMsgNmId = 'pacs.008.001.05';
+				SET IsoOrgInfSts.ns4:GrpSts = 'ACSP'; --ACTC
+			ELSEIF Failure= Environment.Number THEN
+				--=========| Creating Original Group Information status |===============--
+				SET IsoOrgInfSts.ns4:OrgnlMsgId = outValues.values[I].MSG_ID;
+				SET IsoOrgInfSts.ns4:OrgnlMsgNmId = 'pacs.008.001.05';
+				SET IsoOrgInfSts.ns4:GrpSts = 'RJCT';
+			ELSE
+				SET IsoOrgInfSts.ns4:OrgnlMsgId = outValues.values[I].MSG_ID;
+				SET IsoOrgInfSts.ns4:OrgnlMsgNmId = 'pacs.008.001.05';
+				SET IsoOrgInfSts.ns4:GrpSts = 'PART';
+			END IF;
+
+
+
+			DECLARE EnvRef REFERENCE TO Environment.XMLNSC.Result.values[>];
+			DECLARE isobody REFERENCE TO OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt;
+
+			WHILE LASTMOVE(EnvRef) DO
+				CREATE LASTCHILD OF OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt AS isobody NAMESPACE ns4 NAME 'TxInfAndSts' ;
+				SET temp = CAST(Txn_Count AS CHARACTER);
+				SET stsId = bchId || RIGHT('000'||temp,3);
+				SET isobody.ns4:StsId = stsId;
+				IF EnvRef.STATUS='DCI_CBS_CRDT_OC_SUCCESS' THEN
+					SET isobody.ns4:OrgnlTxId =EnvRef.PMT_ID_TXN_ID;
+					SET isobody.ns4:TxSts = 'ACSP';
+					SET PMT_ID_ENDTOEND_ID = EnvRef.PMT_ID_ENDTOEND_ID;
+					SET PMT_ID_TXN_ID = EnvRef.PMT_ID_TXN_ID;
+					CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Updating status as DCI_SUCCESS in TXN table for END_TO_END_ID - '||PMT_ID_ENDTOEND_ID) INTO rc;
+					--=============| updating DB with success status code |==========--
+					UPDATE Database.{SCHEMA_NAME}.{DC_TXN_TABLE} AS R SET STATUS = 'DCI_SUCCESS',MSG_ID = bchId,DESCRIPTION = 'Transaction was success at CBS and sent to CBO' ,TXN_ID = stsId WHERE R.PMT_ID_ENDTOEND_ID = PMT_ID_ENDTOEND_ID AND R.PMT_ID_TXN_ID = PMT_ID_TXN_ID AND R.STATUS = 'DCI_CBS_CRDT_OC_SUCCESS';
+					CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Inserting status as DCI_SUCCESS in STATUS table for END_TO_END_ID - '||PMT_ID_ENDTOEND_ID) INTO rc;
+				ELSE
+
+					SET isobody.ns4:OrgnlEndToEndId = EnvRef.PMT_ID_ENDTOEND_ID;
+					SET isobody.ns4:OrgnlTxId = EnvRef.PMT_ID_TXN_ID;
+					SET isobody.ns4:TxSts = 'RJCT';
+					/*Updating the reson and additional info for failure transactions according to the CBO mapping codes*/
+
+					SET CBO_Reason_Code = CASE SUBSTRING(EnvRef.FAULT_CODE BEFORE ' ')
+					WHEN '01' THEN '5'
+					WHEN 'KSM0104' THEN '5'
+					WHEN 'KSM0106' THEN '5'
+					WHEN 'KSM0261' THEN '5'
+					WHEN 'KSM0669' THEN '5'
+					WHEN 'KSM0847' THEN '5'
+					WHEN 'KSM1164' THEN '5'
+					WHEN 'KSM1885' THEN '5'
+					WHEN 'KSM1886' THEN '5'
+					WHEN 'KSM1894' THEN '5'
+					WHEN 'KSM2081' THEN '5'
+					WHEN 'KSM2086' THEN '5'
+					WHEN 'KSM2256' THEN '5'
+					WHEN 'KSM2613' THEN '5'
+					WHEN 'KSM4049' THEN '5'
+					WHEN 'KSM4050' THEN '5'
+					WHEN 'KSM4240' THEN '5'
+					WHEN 'KSM4283' THEN '5'
+					WHEN 'KSM4350' THEN '5'
+					WHEN 'KSM4701' THEN '5'
+					WHEN 'KSM4702' THEN '5'
+					WHEN 'KSM5714' THEN '5'
+					WHEN 'KSM5715' THEN '5'
+					WHEN 'KSM5830' THEN '5'
+
+					WHEN 'KSM0124' THEN '4'
+					WHEN 'KSM0140' THEN '4'
+					WHEN 'KSM5418' THEN '4'
+					WHEN 'KSM5421' THEN '4'
+
+					WHEN 'KSM0148' THEN '2'
+					WHEN 'KSM5362' THEN '2'
+					WHEN 'KSM5625' THEN '2'
+					WHEN 'USM0128' THEN '2'
+
+					WHEN 'KSM2630' THEN '1'
+					WHEN 'KSM0149' THEN '1'
+					WHEN 'KSM0125' THEN '1'
+
+					WHEN 'KSM2060' THEN '13'
+					WHEN 'KSM2629' THEN '13'
+
+					WHEN 'KSM0145' THEN '15'
+					WHEN '5461' THEN '8'
+
+					ELSE '6'
+
+					END;
+
+					SET isobody.ns4:StsRsnInf.ns4:Rsn.ns4:Prtry = CBO_Reason_Code;
+					IF CBO_Reason_Code = '6' THEN
+						SET isobody.ns4:StsRsnInf.ns4:AddtlInf = SUBSTRING(EnvRef.FAULT_STRING FROM 1 FOR 105);
+					ELSE
+						SET isobody.ns4:StsRsnInf.ns4:AddtlInf = ' ';
+					END IF;
+
+					SET PMT_ID_ENDTOEND_ID = EnvRef.PMT_ID_ENDTOEND_ID;
+					SET PMT_ID_TXN_ID =EnvRef.PMT_ID_TXN_ID;
+					--=============| updating DB with failure status code |==============--
+					CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Updating status as DCI_FAILED in TXN table for END_TO_END_ID - '||PMT_ID_ENDTOEND_ID) INTO rc;
+					UPDATE Database.{SCHEMA_NAME}.{DC_TXN_TABLE} AS R SET STATUS = 'DCI_FAILED',MSG_ID = bchId,DESCRIPTION = 'Transaction Failed at CBS ',TXN_ID = stsId WHERE R.PMT_ID_ENDTOEND_ID = PMT_ID_ENDTOEND_ID AND R.PMT_ID_TXN_ID = PMT_ID_TXN_ID AND R.STATUS = 'DCI_CBS_CRDT_OC_FAILED';
+					CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Inserting status as DCI_FAILED in STATUS table for END_TO_END_ID - '||PMT_ID_ENDTOEND_ID) INTO rc;
+				END IF;
+				SET Txn_Count = Txn_Count + 1;
+				MOVE EnvRef NEXTSIBLING;
+			END WHILE;
+			--SET OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt = '';
+			DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.ns4:Document.ns4:FIToFIPmtStsRpt;
+			CREATE LASTCHILD OF outRef AS outRef NAMESPACE ns1 NAME 'SplmtryData';
+			CREATE LASTCHILD OF outRef AS outRef NAMESPACE ns1 NAME 'Envlp';
+			CREATE LASTCHILD OF outRef AS outRef NAMESPACE ns3 NAME 'supplementaryData';
+			CREATE LASTCHILD OF outRef AS outRef NAMESPACE ns3 NAME 'Items';
+			SET outRef.ns3:Item[1] = '2';
+			SET outRef.ns3:Item[1].(XMLNSC.Attribute)key = 'batchSource';
+			SET outRef.ns3:Item[2] = '9';
+			SET outRef.ns3:Item[2].(XMLNSC.Attribute)key = 'session';
+			CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO','Sending ISO response to CBO') INTO rc;
+			
+			PROPAGATE TO TERMINAL 'out';
+			SET Environment.XMLNSC=NULL;
+			SET Environment.i = Environment.i + 1;
+			CALL CopyEntireMessage(aBatchKey);
+		END IF;
+		CALL writeToLogFile(MessageFlowLabel, 'dci_info', 'INFO',' -------------------------') INTO rc;
+	END;
+	/* =======================================================================================================================
+	Retrieving all the transactions from DCI_TXN_INFO table whose status is 'DCI_CBS_CRDT_OC_SUCCESS' or 'DCI_CBS_CRDT_OC_FAILED'
+	========================================================================================================================*/
+	CREATE PROCEDURE getTxns(IN aBatchKey FLOAT) RETURNS BOOLEAN BEGIN
+
+	DECLARE SQL CHARACTER 'SELECT GP.MSG_ID,GP.INST_AGT_FIN_ID_BICFI,TXN.PMT_ID_ENDTOEND_ID,TXN.PMT_ID_TXN_ID,TXN.FAULT_CODE,TXN.INSTD_AGT_FIN_ID_BICFI,TXN.INSTD_AGT_BNCHID_ID,TXN.FAULT_STRING,TXN.STATUS FROM DCI_GP_HEADER_INFO GP, DCI_TXN_INFO TXN WHERE  GP.DCI_GP_HEADER_ID = TXN.DCI_GP_HDR_ID_TXN_FK  AND  TXN.DCI_GP_HDR_ID_TXN_FK =? AND (TXN.STATUS = ? OR TXN.STATUS = ?)';
+
+	CALL writeToLogFile(MessageFlowLabel, 'dco_info', 'INFO','Fetching transactions from TXN table where status is DCO_SEND_TO_CBO_NPT or DCO_SEND_TO_CBO_PT') INTO rc;
+	SET outValues.values[] = PASSTHRU(SQL TO Database.{DSN} VALUES(aBatchKey,'DCI_CBS_CRDT_OC_SUCCESS', 'DCI_CBS_CRDT_OC_FAILED'));
+
+	DECLARE RecordEnv REFERENCE TO Environment.XMLNSC.Result;
+	SET num = CARDINALITY(outValues.values[]);
+	-- if the transactions are within the CBO specified max amount and max transactions count
+	IF num <> 0 AND num <= configValues.values.MAX_NO_OF_TXNS THEN
+		SET Environment.XMLNSC.Result=outValues;
+		SET Environment.Number = num;
+		RETURN TRUE;
+		-- if total count of transactions has exceeded the max transactions cunt, then taking transactions count accordingly
+	ELSEIF num >= configValues.values.MAX_NO_OF_TXNS THEN
+		DECLARE K INTEGER 1;
+		WHILE K <= num DO
+			IF K <= configValues.values.MAX_NO_OF_TXNS THEN
+				/* we are adding records into environment */
+				CREATE LASTCHILD OF Environment.XMLNSC.Result AS RecordEnv NAME 'values';
+				SET RecordEnv=outValues.values[K];
+				SET K = K + 1;
+			ELSE
+				SET Environment.Number = K - 1;
+				RETURN TRUE;
+			END IF;
+		END WHILE;
+	ELSE
+		CALL writeToLogFile(MessageFlowLabel, 'dco_info', 'INFO','No transaction found in TXN table with status as DCI_CBS_CRDT_OC_SUCCESS or DCI_CBS_CRDT_OC_FAILED') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'dco_info', 'INFO',' ------------------------') INTO rc;
+		RETURN FALSE;
+	END IF;
+END;
+

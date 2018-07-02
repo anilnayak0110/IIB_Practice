@@ -1,0 +1,38 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL BuildCboRequest();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE BuildCboRequest ( )
+	BEGIN
+		DECLARE CustomerReference REFERENCE TO InputRoot.XMLNSC.CBORequest.CstmrInfo[>];
+		SET OutputRoot.XMLNSC.ns18:Document.(XMLNSC.NamespaceDecl)xmlns                    = ns18;
+		SET OutputRoot.XMLNSC.ns18:Document.(XMLNSC.NamespaceDecl)xmlns:ns20                   = ns20;
+				
+		DECLARE noOfCustomer INTEGER;
+		DECLARE I INTEGER 1;
+		SET noOfCustomer = CARDINALITY(InputRoot.XMLNSC.CBORequest.CstmrInfo[]);
+		while I<=noOfCustomer DO
+			SET outRef.ns18:CstmrRecord[I].ns18:CstmrInfo.CstmrId.Id             = CustomerReference.CustomerId;
+			SET outRef.ns18:CstmrRecord[I].ns18:CstmrInfo.CstmrId.Id             = CustomerReference.CustomerId;
+			SET I = I + 1;
+		END WHILE;
+		
+		PROPAGATE TO TERMINAL 'out';
+	END;

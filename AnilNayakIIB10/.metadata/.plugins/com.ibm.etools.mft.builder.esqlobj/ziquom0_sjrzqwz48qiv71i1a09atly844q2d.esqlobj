@@ -1,0 +1,16 @@
+CREATE FILTER MODULE filterFlow_Filter
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+    CALL FilterMessage();
+    RETURN TRUE;
+	END;
+	CREATE PROCEDURE FilterMessage ( ) RETURNS BOOLEAN
+	BEGIN
+		IF Root.XMLNSC.Employee.name = 'Anil' THEN 
+			RETURN TRUE;
+		ELSE
+			RETURN FALSE;
+		END IF;
+	END;
+
+END MODULE;

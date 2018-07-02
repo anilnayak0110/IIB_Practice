@@ -1,0 +1,62 @@
+package com.anilnayak.java;
+
+import com.ibm.broker.plugin.MbElement;
+import com.ibm.broker.plugin.MbException;
+import com.ibm.broker.plugin.MbGlobalMap;
+import com.ibm.broker.plugin.MbGlobalMapSessionPolicy;
+
+public class GlobalCache {
+
+	/*Add Eelement in Global Cache*/
+	public static Boolean putInCache(MbElement element) {
+
+		String key            = null;
+		String value          = null;
+		String mapName        = null;
+		MbGlobalMap globalMap = null;
+
+		try {
+			MbElement mbElement       = element.getFirstChild();
+			while (mbElement          != null) {
+				mapName               = mbElement.getFirstChild().getValueAsString();
+				globalMap             = MbGlobalMap.getGlobalMap(mapName,new MbGlobalMapSessionPolicy(0));
+						                                     
+				MbElement nextElement = mbElement.getFirstChild().getNextSibling();
+						                                  
+				while (nextElement   != null) {
+					key               = nextElement.getFirstChild().getValueAsString();
+					value             = nextElement.getValueAsString();
+					if (globalMap.containsKey(key)) {
+						globalMap.update(key, value);
+					} else {
+						globalMap.put(key, value);
+					}
+					nextElement       = nextElement.getNextSibling();
+				}
+				mbElement             = mbElement.getNextSibling();
+			}
+		} catch (MbException e) {
+			System.out.println("Exception Message::::"+e.getMessage());
+			e.printStackTrace();
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+
+	}
+	/*Get Value from Global Cache*/
+	
+	public static String getValue(String mapName, String key){
+		String value              = null;
+		MbGlobalMap globalMap     = null;
+		try {
+			globalMap             = MbGlobalMap.getGlobalMap(mapName, new MbGlobalMapSessionPolicy(0));
+		} catch (MbException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return key;
+		
+	}
+
+}

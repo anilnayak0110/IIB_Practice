@@ -1,0 +1,38 @@
+CREATE COMPUTE MODULE TransferMultipleXml_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+	     CALL CopyEntireMessage();
+	     CALL TransferMultipleXml();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE TransferMultipleXml ( )
+	BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.XMLNSC.Person[]);
+		WHILE I<=J DO
+			SET OutputRoot.XMLNSC.Response.Data.FirstName = InputRoot.XMLNSC.People.Person[I].FirstName;
+			SET OutputRoot.XMLNSC.Response.Data.LastName = InputRoot.XMLNSC.People.Person[I].LastName;
+			SET OutputRoot.XMLNSC.Response.Data.Proffesions = InputRoot.XMLNSC.People.Person[I].Proffesions;
+			SET OutputRoot.XMLNSC.Response.Data.NickName = InputRoot.XMLNSC.People.Person[I].NickName;
+			SET I = I + 1;
+		END WHILE;
+		
+		
+	END;
+END MODULE;

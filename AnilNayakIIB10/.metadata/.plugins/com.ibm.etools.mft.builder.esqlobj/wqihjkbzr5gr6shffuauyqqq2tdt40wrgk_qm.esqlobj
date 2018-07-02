@@ -1,0 +1,11 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL InsertQuery();
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE InsertQuery ( ) 
+	
+	BEGIN
+		INSERT INTO MySQLDataSource.Employee (ENAME,SALARY ) VALUES ('Anil',20000.00 );
+	END;
+

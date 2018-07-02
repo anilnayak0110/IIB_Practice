@@ -1,0 +1,4 @@
+CREATE PROCEDURE AddElementInCache ( )
+RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.anilnayak.java.GlobalCache.putInCache";

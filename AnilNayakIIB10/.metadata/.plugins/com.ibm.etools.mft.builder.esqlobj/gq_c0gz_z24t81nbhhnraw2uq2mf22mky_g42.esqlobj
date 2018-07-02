@@ -1,0 +1,12 @@
+/*EATE FUNCTION Main()
+	BEGIN
+    
+	END;
+	CREATE PROCEDURE FilterMessage ( ) RETURNS BOOLE*/
+	BEGIN
+		IF InputRoot.XMLNSC.Employee.name = 'Anil' THEN 
+			RETURN TRUE;
+		ELSE
+			RETURN FALSE;
+	END;
+

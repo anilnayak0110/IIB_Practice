@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pluginspace>
+<plugin id="MQTTNodes" version="1.1.0.v20160819-1112"/>
+<plugin id="com.ibm.etools.mft.connector.kafka" version="1.0.0.v20160819-1112"/>
+<plugin id="com.ibm.etools.mft.connector.loopback" version="10.0.600.v20160819-1112"/>
+<plugin id="com.ibm.etools.mft.connector.salesforce" version="10.0.600.v20160819-1112"/>
+<plugin id="com.ibm.etools.mft.mapping.codegen.esql" version="10.0.600.v20160819-1112"/>
+</pluginspace>

@@ -1,0 +1,98 @@
+/*
+        Java Mapping table with ESQL
+   
+   ESQL                            JAVA
+   
+   INTEGER, INT               java.lang.Long
+   FLOAT                      java.lang.Double
+   DECIMAL                    java.lang.BigDecimal
+   CHARACTER, CHAR            java.lang.String
+   BOOLEAN                    java.lang.Boolean
+   BIT                        java.util.BitSet
+   BLOB                       byte[]
+   INTERVAL                   Not Supported
+   ROW                        Not Supported
+   LIST                       Not Supported
+  
+
+
+*/
+
+
+
+BROKER SCHEMA com.anilnayak.esb
+
+
+CREATE COMPUTE MODULE JavaIntegrationWithIIB_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		 CALL CallJavaApp();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE CallJavaApp() BEGIN
+		
+		
+		
+		/* esql declaration for float */	
+		DECLARE sal FLOAT 3000.00;
+		SET sal                                     = CallJavaTest(sal);
+		DECLARE amount FLOAT;
+		SET amount                                  = sal;
+		SET OutputRoot.XMLNSC.salary.amount         = sal;
+		
+		
+		
+		
+		/* esql declaration for integer */	
+		DECLARE gsal INTEGER;
+		DECLARE gsalary INTEGER 100000;
+        set gsal                                    =GetGrossSalary(gsalary);
+        DECLARE finalsal INTEGER;
+        SET finalsal                                =gsal;
+        
+        
+        /* esql declaration for Boolean*/
+        DECLARE amountCheck BOOLEAN FALSE;
+		set amountCheck                            =CheckBalance('45242');
+		DECLARE Test BOOLEAN;
+		set Test                                   =amountCheck;
+		
+	END;
+	
+		
+	
+	
+END MODULE;
+
+CREATE PROCEDURE CallJavaTest (IN salary FLOAT)
+RETURNS FLOAT
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.getSalary";
+
+CREATE PROCEDURE GetGrossSalary (IN salary INTEGER)
+RETURNS INTEGER
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.getGrossSalary";
+
+CREATE PROCEDURE CheckBalance (IN salary CHARACTER)
+RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.checkBalance";
+
+

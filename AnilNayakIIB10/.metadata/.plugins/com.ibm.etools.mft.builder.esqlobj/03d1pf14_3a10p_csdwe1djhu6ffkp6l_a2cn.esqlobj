@@ -1,0 +1,4 @@
+CREATE PROCEDURE CallJavaTest (IN salary INTEGER)
+RETURNS FLOAT
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.getSalary";

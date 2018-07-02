@@ -1,0 +1,4 @@
+CREATE PROCEDURE addMapToCache (IN refName REFERENCE )
+RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.anilnayak.java.GlobalCache.putInCache";

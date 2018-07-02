@@ -1,0 +1,53 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL PropagetToProfessions();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE PropagetToProfessions ( )
+	BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		DECLARE name CHARACTER;
+		DECLARE ref REFERENCE TO InputRoot.XMLNSC.People.Person[I];
+		
+		SET J = CARDINALITY(InputRoot.XMLNSC.People.Person[]);
+		WHILE I<=J DO
+			SET name = ref.Profession;
+			IF name     = 'IT' THEN
+				SET OutputRoot.XMLNSC.People.person.FirstName  = ref.FirstName;
+		        SET OutputRoot.XMLNSC.People.person.LastName   = ref.LastName;
+		        SET OutputRoot.XMLNSC.People.person.Profession = ref.Profession;
+		        SET OutputRoot.XMLNSC.People.person.NName      = InputRoot.XMLNSC.People.NickNames.NickName[I].NName;
+		        PROPAGATE TO TERMINAL 'out';
+			ELSEIF name = 'MBA' THEN
+				SET OutputRoot.XMLNSC.People.person.FirstName  = ref.FirstName;
+		        SET OutputRoot.XMLNSC.People.person.LastName   = ref.LastName;
+		        SET OutputRoot.XMLNSC.People.person.Profession = ref.Profession;
+		        SET OutputRoot.XMLNSC.People.person.NName      = InputRoot.XMLNSC.People.NickNames.NickName[I].NName;
+		        PROPAGATE TO TERMINAL 'out1';
+			ELSE
+				SET OutputRoot.XMLNSC.People.person.FirstName  = ref.FirstName;
+		        SET OutputRoot.XMLNSC.People.person.LastName   = ref.LastName;
+		        SET OutputRoot.XMLNSC.People.person.Profession = ref.Profession;
+		        SET OutputRoot.XMLNSC.People.person.NName      = InputRoot.XMLNSC.People.NickNames.NickName[I].NName;
+		        PROPAGATE TO TERMINAL 'out2';
+			END IF;
+			SET I = I + 1;
+		END WHILE;
+	END;

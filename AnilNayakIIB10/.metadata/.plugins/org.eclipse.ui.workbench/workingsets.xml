@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521452421439_124" label="[CHECK_DAYOFWEEK]" name="[CHECK_DAYOFWEEK]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CHECK_DAYOFWEEK" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521550245803_16" label="[GitHub]" name="[GitHub]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/GitHub" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1522140120118_20" label="[MpClearSample]" name="[MpClearSample]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/MpClearSample" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1524643656162_25" label="[HttpRequestWithCypher]" name="[HttpRequestWithCypher]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpRequestWithCypher" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1524643995416_26" label="[HttpClientProvider]" name="[HttpClientProvider]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpClientProvider" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412513_29" label="[ACH_Connector_Project]" name="[ACH_Connector_Project]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileSigningSample" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ACH_Connector_Project" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/BetaCode" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AlphaCode" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DigitalSignAndVerify_XML_OAB" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412536_30" label="[AccessingAttributeElement]" name="[AccessingAttributeElement]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AccessingAttributeElement" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412558_31" label="[AddXMLAttribute]" name="[AddXMLAttribute]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AddXMLAttribute" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412579_32" label="[AddXMLAttributeElement]" name="[AddXMLAttributeElement]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AddXMLAttributeElement" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412598_33" label="[AgreegateApplication]" name="[AgreegateApplication]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AgreegateApplication" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412620_34" label="[AlphaCodeLIB]" name="[AlphaCodeLIB]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AlphaCodeLIB" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AlphaCode" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412639_35" label="[ApacheActiveMqApp]" name="[ApacheActiveMqApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ApacheActiveMqApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412658_36" label="[AshokTaskUsingSelect]" name="[AshokTaskUsingSelect]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AshokTaskUsingSelect" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412676_37" label="[BetaCodeLIB]" name="[BetaCodeLIB]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/BetaCodeLIB" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/BetaCode" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412697_38" label="[BlobInsertIntoMySQLDB]" name="[BlobInsertIntoMySQLDB]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/BlobInsertIntoMySQLDB" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412722_39" label="[BrokerSchemaApp]" name="[BrokerSchemaApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/BrokerSchemaApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412777_40" label="[CaseESQLApp]" name="[CaseESQLApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CaseESQLApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412802_41" label="[CollectorNodeApp]" name="[CollectorNodeApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CollectorNodeApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412828_42" label="[CommonExceptionHandler]" name="[CommonExceptionHandler]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CommonExceptionHandler" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412849_43" label="[Common_Exception_Mail_Alert_App]" name="[Common_Exception_Mail_Alert_App]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Common_Exception_Mail_Alert_App" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JExceptionHandlingLibJava" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412884_44" label="[ConcatElementApplications]" name="[ConcatElementApplications]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ConcatElementApplications" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412905_45" label="[ConvertToBlobApp]" name="[ConvertToBlobApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ConvertToBlobApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539412927_46" label="[configarable]" name="[configarable]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/configarable" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424536_47" label="[CreateAttributeUsingIdentity]" name="[CreateAttributeUsingIdentity]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CreateAttributeUsingIdentity" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424559_48" label="[CreateDomainApp]" name="[CreateDomainApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CreateDomainApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424580_49" label="[CreateLastChildOf]" name="[CreateLastChildOf]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CreateLastChildOf" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424613_50" label="[CreateSiblings]" name="[CreateSiblings]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CreateSiblings" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424635_51" label="[CustomerDatabaseClient]" name="[CustomerDatabaseClient]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CustomerDatabaseClient" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424656_52" label="[CustomerDatabaseV1]" name="[CustomerDatabaseV1]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CustomerDatabaseJava" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/CustomerDatabaseV1" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424677_53" label="[DatabaseInputApp]" name="[DatabaseInputApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DatabaseInputApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424699_54" label="[DateConvertAPP]" name="[DateConvertAPP]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DateConvertAPP" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424722_55" label="[DemoAppCOALESCE]" name="[DemoAppCOALESCE]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DemoAppCOALESCE" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424748_56" label="[DemoRest]" name="[DemoRest]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/DemoRest" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424774_57" label="[ESQL_External_Variable]" name="[ESQL_External_Variable]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ESQL_External_Variable" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424797_58" label="[ESQL_Indexes_UsingSymbols]" name="[ESQL_Indexes_UsingSymbols]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/ESQL_Indexes_UsingSymbols" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424823_59" label="[EmailNodeRetriveEmail]" name="[EmailNodeRetriveEmail]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/EmailNodeRetriveEmail" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424850_60" label="[EmailNodeSendingEmail]" name="[EmailNodeSendingEmail]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/EmailNodeSendingEmail" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424874_61" label="[FTE_App]" name="[FTE_App]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FTE_App" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424899_62" label="[FileNode_Pick_And_Write_Direct_To_Directory]" name="[FileNode_Pick_And_Write_Direct_To_Directory]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileNode_Pick_And_Write_Direct_To_Directory" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424923_63" label="[FileReadApp]" name="[FileReadApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileReadApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424948_64" label="[FileTransferFromCsvToXml]" name="[FileTransferFromCsvToXml]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileTransferFromCsvToXml" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424973_65" label="[FileTransferWithEndofData]" name="[FileTransferWithEndofData]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileTransferWithEndofData" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539424999_66" label="[FileTransfermation]" name="[FileTransfermation]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FileTransfermation" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425032_67" label="[FilterNodeApp]" name="[FilterNodeApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/FilterNodeApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425061_68" label="[GetGlobalCacheElementApp]" name="[GetGlobalCacheElementApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/GlobalCacheApp" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/GetGlobalCacheElementApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425088_69" label="[HttpDynamicSendingURL]" name="[HttpDynamicSendingURL]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpDynamicSendingURL" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425117_70" label="[HttpJsonFullService]" name="[HttpJsonFullService]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpJsonFullService" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425146_71" label="[HttpJsonTransferData]" name="[HttpJsonTransferData]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpJsonTransferData" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425175_72" label="[HttpNodesRespondsWithXmlForJsonData]" name="[HttpNodesRespondsWithXmlForJsonData]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpNodesRespondsWithXmlForJsonData" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425205_73" label="[HttpSynchronousApp]" name="[HttpSynchronousApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpSynchronousApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425233_74" label="[HttpUrlSendingXMLData]" name="[HttpUrlSendingXMLData]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/HttpUrlSendingXMLData" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425263_75" label="[JAX-B_ApplicationJavaLIB]" name="[JAX-B_ApplicationJavaLIB]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JAX-B_ApplicationJava" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JAX-B_ApplicationJavaLIB" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425294_76" label="[JAXB_Application]" name="[JAXB_Application]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JAXB_Application" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JAXB_ApplicationJava" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425326_77" label="[JMS_Input_To_MQOutq]" name="[JMS_Input_To_MQOutq]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JMS_Input_To_MQOutq" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425357_78" label="[JSON_Parse_App]" name="[JSON_Parse_App]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JSON_Parse_App" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425388_79" label="[JavaComputeApp]" name="[JavaComputeApp]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JavaComputeAppJava" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JavaComputeApp" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425420_80" label="[JavaIntegrationWithIIB]" name="[JavaIntegrationWithIIB]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JavaIntegrationWithIIB" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JavaAppForSalary" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425451_81" label="[JmsInput_JmsOutput]" name="[JmsInput_JmsOutput]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JmsInput_JmsOutput" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425489_82" label="[JsonParserHttpNodeQueryingString]" name="[JsonParserHttpNodeQueryingString]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JsonParserHttpNodeQueryingString" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425520_83" label="[Lib_Cano_Reto_Revo_Common.xsd]" name="[Lib_Cano_Reto_Revo_Common.xsd]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Lib_Cano_Reto_Revo_Common.xsd" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539425556_84" label="[Lib_Wps_And_Mpclear]" name="[Lib_Wps_And_Mpclear]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Lib_Wps_And_Mpclear" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539599753_85" label="[WPS_Connector_Project]" name="[WPS_Connector_Project]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/WPS_Connector_Project" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1519731509846_0" label="Window Working Set" name="Aggregate for window 1519731509845"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520320576444_1" label="Window Working Set" name="Aggregate for window 1520320576444"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520396620904_3" label="Window Working Set" name="Aggregate for window 1520396620904"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520482281713_112" label="Window Working Set" name="Aggregate for window 1520482281713"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520491397740_114" label="Window Working Set" name="Aggregate for window 1520491397740"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520492116002_115" label="Window Working Set" name="Aggregate for window 1520492116002"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520741726448_116" label="Window Working Set" name="Aggregate for window 1520741726448"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520828525973_117" label="Window Working Set" name="Aggregate for window 1520828525973"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1520915202606_118" label="Window Working Set" name="Aggregate for window 1520915202606"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521001056979_119" label="Window Working Set" name="Aggregate for window 1521001056979"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521087294763_120" label="Window Working Set" name="Aggregate for window 1521087294763"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521087348068_121" label="Window Working Set" name="Aggregate for window 1521087348068"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521087467709_122" label="Window Working Set" name="Aggregate for window 1521087467708"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521435687079_123" label="Window Working Set" name="Aggregate for window 1521435687079"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521520612862_15" label="Window Working Set" name="Aggregate for window 1521520612862"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521610499288_17" label="Window Working Set" name="Aggregate for window 1521610499288"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1521738571109_18" label="Window Working Set" name="Aggregate for window 1521738571109"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1522138952245_19" label="Window Working Set" name="Aggregate for window 1522138952245"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1522228366753_21" label="Window Working Set" name="Aggregate for window 1522228366753"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1522847867389_22" label="Window Working Set" name="Aggregate for window 1522847867389"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1523341693229_23" label="Window Working Set" name="Aggregate for window 1523341693229"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1524643622826_24" label="Window Working Set" name="Aggregate for window 1524643622826"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1525070030700_27" label="Window Working Set" name="Aggregate for window 1525070030700"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1526539265744_28" label="Window Working Set" name="Aggregate for window 1526539265744"/>
+</workingSetManager>

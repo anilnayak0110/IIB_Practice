@@ -1,0 +1,9 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL SelectDataFromDB();
+		RETURN TRUE;
+	END;
+CREATE PROCEDURE SelectDataFromDB ( )
+BEGIN
+	SET Environment.Data.Result[] = SELECT A.* FROM Database.{MySQLDataSource}.{TABLE} AS A;
+END;

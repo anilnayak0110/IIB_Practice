@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="jar:file://!com/ibm/etools/mft/map/xsds/predefined/BlobMessage.xsd" var="var"/>
+    <input path="db:database(/test.dbm,test,db:schema-tables(test,sample))" var="test"/>
+    <output path="/emp.xsd"/>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="mysql_msg_flow_Mapping">
+        <input path="$var/mb:msg(BLOB,assembly,BLOB,Properties)" var="ComIbmMessageAssembly_BLOB"/>
+        <input path="$test/db:select(fn:false(),ResultSet(test/sample/STATUS,test/sample/FAULT_CODE,test/sample/FILE_NAME),db:where('1=1'))" var="dbselect"/>
+        <output path="mb:msg(Employees,assembly,XMLNSC,Properties)" var="ComIbmMessageAssembly_Employees"/>
+        <move>
+            <input path="$ComIbmMessageAssembly_BLOB/Properties"/>
+            <output path="$ComIbmMessageAssembly_Employees/Properties"/>
+        </move>
+        <select ref="dbselect">
+            <input path="$dbselect/ResultSet"/>
+            <output path="$ComIbmMessageAssembly_Employees/Employees"/>
+            <foreach>
+                <input path="."/>
+                <output path="Employee"/>
+                <move>
+                    <input path="test/sample/STATUS"/>
+                    <output path="EID"/>
+                </move>
+                <move>
+                    <input path="test/sample/FAULT_CODE"/>
+                    <output path="ENAME"/>
+                </move>
+            </foreach>
+        </select>
+    </mappingDeclaration>
+</mappingRoot>

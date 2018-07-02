@@ -1,0 +1,47 @@
+CREATE COMPUTE MODULE csvToXml_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL ConvertCsvToXml();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE ConvertCsvToXml ( )
+	BEGIN
+		--DECLARE I INTEGER 1;
+		--DECLARE J INTEGER;
+--		SET J = CARDINALITY(InputRoot.DFDL.anil.record[]);
+--		WHILE I<=J DO
+--			SET OutputRoot.XMLNSC.Data.Record[I].id     = InputRoot.DFDL.anil.record[I].id;
+--			SET OutputRoot.XMLNSC.Data.Record[I].name   = InputRoot.DFDL.anil.record[I].name;
+--			SET OutputRoot.XMLNSC.Data.Record[I].salary = InputRoot.DFDL.anil.record[I].salary;
+--			SET I = I + 1;
+--		END WHILE;
+		
+		DECLARE InRef REFERENCE TO InputRoot.DFDL.anil.record[];
+		DECLARE OutRef REFERENCE TO OutputRoot.XMLNSC.Data;
+		
+		WHILE LASTMOVE(InRef) DO
+			CREATE LASTCHILD OF  OutputRoot.XMLNSC.Data AS OutRef Name 'Record';
+			--SET OutRef = InRef;
+			SET OutRef.id     = InRef.id;
+			SET OutRef.name   = InRef.name;
+			SET OutRef.salary = InRef.salary;
+		    MOVE InRef NEXTSIBLING;
+		END WHILE;
+	END;
+END MODULE;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="FileTransferFromCsvToXml">
+  <XSDCollection href="platform:/resource/FileTransferFromCsvToXml/com/anilnayak/esb/anil.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/CommaSeparatedFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+    <element href="platform:/resource/FileTransferFromCsvToXml/com/anilnayak/esb/anil.xsd#//anil;XSDElementDeclaration" name="anil"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/FileTransferFromCsvToXml/IBMdefined/CommaSeparatedFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+</MessageBroker>

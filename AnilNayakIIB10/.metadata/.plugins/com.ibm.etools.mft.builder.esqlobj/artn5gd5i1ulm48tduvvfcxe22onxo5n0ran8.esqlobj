@@ -1,0 +1,11 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE InsertQuery ( )
+	
+	BEGIN
+		INSERT INTO Database.MySQLDS.test.Employee (ENAME,SALARY ) VALUES ('Anil',20000.00 );
+	END;
+

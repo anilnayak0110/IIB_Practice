@@ -1,0 +1,6 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		-- Copy Message Properties only
+		
+		RETURN TRUE;
+	END;

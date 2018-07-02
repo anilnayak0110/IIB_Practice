@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="arith" targetNamespace="http://www.example.org/arith/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/arith/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <generatedXSD location="arith_InlineSchema1.xsd"/>
+        <binding hasEncoding="false" imported="true" name="arithSOAP" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  <wsdl:types>
+    
+          <xsd:schema targetNamespace="http://www.example.org/arith/" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+<xsd:include schemaLocation="arith_InlineSchema1.xsd"/>
+    </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="ArithmeticRequest">
+    <wsdl:part element="tns:Arithmetic" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ArithmeticResponse">
+    <wsdl:part element="tns:ArithmeticResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="arith">
+    <wsdl:operation name="Arithmetic">
+      <wsdl:input message="tns:ArithmeticRequest"/>
+      <wsdl:output message="tns:ArithmeticResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="arithSOAP" type="tns:arith">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Arithmetic">
+      <soap:operation soapAction="http://www.example.org/arith/Arithmetic"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="arith">
+    <wsdl:port binding="tns:arithSOAP" name="arithSOAP">
+      <soap:address location="http://localhost:8565/test"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

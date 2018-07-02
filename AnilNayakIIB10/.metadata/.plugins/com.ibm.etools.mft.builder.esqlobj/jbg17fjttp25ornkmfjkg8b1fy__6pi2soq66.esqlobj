@@ -1,0 +1,101 @@
+CREATE COMPUTE MODULE mysqlDBInsert_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL InsertIntoDBUsingQuery();
+		--CALL InsertIntoDBWithoutQuery();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE InsertIntoDBUsingQuery ( )
+	BEGIN
+		DECLARE SQL CHARACTER;
+		DECLARE STR CHARACTER '(';
+		DECLARE Inref REFERENCE TO InputRoot.XMLNSC.EmployeeInfo.Transaction[>];
+		DECLARE count INTEGER CARDINALITY(InputRoot.XMLNSC.EmployeeInfo.Transaction[]);
+		WHILE LASTMOVE(Inref) DO
+			SET STR = STR || Inref.Name||','||Inref.Salary||'),(';
+			MOVE Inref NEXTSIBLING;
+		END WHILE;
+		DECLARE N INTEGER LENGTH(STR);
+		
+		SET Environment.STR=OVERLAY(STR  PLACING '' FROM N FOR 1 );
+		SET N = LENGTH(Environment.STR);
+		
+		SET Environment.STR1=OVERLAY(Environment.STR  PLACING '' FROM N FOR 1 );
+		PROPAGATE TO TERMINAL 'out1';
+--		--SET Environment.STR = SUBSTRING(STR BEFORE ')' FOR 1);
+--		SET SQL = 'INSERT INTO EMPLOYEE(ENAME,SALARY) VALUES(?,?)';
+--	SET Environment.Data.Result[]  = PASSTHRU(SQL TO Database.{MySQLDataSource} VALUES (Environment.STR1));
+	END;
+	CREATE PROCEDURE  InsertIntoDBWithoutQuery( )
+	BEGIN
+		DECLARE InsertRef ROW;
+	   Insert into Database.{MySQLDataSource}.{SCHEMA_NAME}.{TABLE} (ENAME,SALARY) VALUES (Environment.STR1);
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	  DECLARE lineRef REFERENCE TO InputRoot.XMLNSC.EmployeeInfo.Transaction[>];
+	   
+	   SET ItemCount = 1; 
+DECLARE itemQuery CHARACTER ''; 
+DECLARE insertValuesItem CHARACTER 'INTO SOME.ITEMTBL(ID,SQU,PRICE,QTY) 
+                         VALUES(?,?,?,?)'; 
+          
+       ItemLine : WHILE LASTMOVE(lineRef) DO 
+          SET itemQuery = itemQuery || insertValuesItem; 
+          SET lineItem.Row.col[ItemCount]     VALUE    = lineRef.Id; 
+          SET lineItem.Row.col[ItemCount+1] VALUE    = lineRef.SQU; 
+          SET lineItem.Row.col[ItemCount+2] VALUE    = lineRef.PRICE; 
+          SET lineItem.Row.col[ItemCount+3] VALUE    = lineRef.QTY; 
+          SET  ItemCount =  ItemCount+4; --This will help to save next row. 
+          MOVE lineRef NEXTSIBLING REPEAT NAME; 
+       END WHILE ItemLine; 
+        
+      
+        
+       PASSTHRU('INSERT ALL ' || itemQuery || 'SELECT 1 FROM DUAL', lineItem.Row.col[]);
+	   
+	END;
+END MODULE;

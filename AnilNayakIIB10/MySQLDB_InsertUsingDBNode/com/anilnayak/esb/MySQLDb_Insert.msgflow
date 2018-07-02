@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmDatabase.msgnode="ComIbmDatabase.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:ComIbmMQOutput.msgnode="ComIbmMQOutput.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/anilnayak/esb/MySQLDb_Insert.msgflow" nsPrefix="com_anilnayak_esb_MySQLDb_Insert.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.MySQLDataSource" name="MySQLDataSource" defaultValueLiteral="MySQLDS">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="MySQLDb_Insert" bundleName="com/anilnayak/esb/MySQLDb_Insert" pluginId="MySQLDB_Insert"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/MySQLDB_Insert/icons/full/obj16/MySQLDb_Insert.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/MySQLDB_Insert/icons/full/obj30/MySQLDb_Insert.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="61,65" queueName="ESB.INPUT1">
+        <translation xmi:type="utility:ConstantString" string="ESB.INPUT1"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="540,71" queueName="ESB.OUTPUT">
+        <translation xmi:type="utility:ConstantString" string="ESB.OUTPUT"/>
+      </nodes>
+      <nodes xmi:type="ComIbmDatabase.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="291,67" dataSource="MySQLDS" statement="esql://routine/com.anilnayak.esb#MySQLDb_Insert_Database.Main">
+        <translation xmi:type="utility:ConstantString" string="Database"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.MySQLDataSource">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.MySQLDataSource" bundleName="com/anilnayak/esb/MySQLDb_Insert" pluginId="MySQLDB_Insert"/>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <stickyBoard>
+      <stickyNote location="99,184">
+        <body xmi:type="utility:ConstantString" string="Steps To Connect to MySQL Database&#xA;1. Download MySQL ClientDriver first and install it .&#xA;2. Create DataSource for MySQL in ODBC in SystemDSN and Test it .&#xA;3. If test connection is success, then run below commands from MQ Console .&#xA;4. mqsisetdbparms &lt;BrokerName> -n &lt;MySQLDatasourceName> -u &lt;dbusername> -p &lt;dbpasswordname>&#xA;5. check db properly connect or not by using below command &#xA;    mqsicvp &lt;BrokerName> -n &lt;MySQLDataSourceName>&#xA;6. stop the Broker or reload the Broker , (If reload then no need t stop and start)&#xA;7. start the Broker .&#xA;----------------------------------Transaction mode------------------------------------&#xA; Transaction mode in db node 'Autometic' means if message flow completely success then only transaction happen &#xA;    in db or if message flow fails then data will not insert or update or select in db means data will rollback.&#xA;   if Transaction mode select 'Commit' means message flow failed or success data will commit in db , means it will independent of&#xA;  messageflow execution success or failed .&#xA;"/>
+      </stickyNote>
+    </stickyBoard>
+  </eClassifiers>
+</ecore:EPackage>

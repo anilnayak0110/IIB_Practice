@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmWSInput.msgnode="ComIbmWSInput.msgnode" xmlns:ComIbmWSReply.msgnode="ComIbmWSReply.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/anilnayak/esb/httpJsonData.msgflow" nsPrefix="com_anilnayak_esb_httpJsonData.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="httpJsonData" bundleName="com/anilnayak/esb/httpJsonData" pluginId="HttpJsonTransferData"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/HttpJsonTransferData/icons/full/obj16/httpJsonData.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/HttpJsonTransferData/icons/full/obj30/httpJsonData.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmWSInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="136,99" URLSpecifier="/testJson" messageDomainProperty="JSON">
+        <translation xmi:type="utility:ConstantString" string="HTTP Input"/>
+      </nodes>
+      <nodes xmi:type="ComIbmWSReply.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="685,104">
+        <translation xmi:type="utility:ConstantString" string="HTTP Reply"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="412,98" computeExpression="esql://routine/com.anilnayak.esb#httpJsonData_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="Compute"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard>
+      <stickyNote location="297,253">
+        <body xmi:type="utility:ConstantString" string="1. Command to check Http and Soap uses Embeded or Broker Level port( if&#xA;    httpNodesUseEmbeddedListener='true'&#xD;&#xA; , then http using Embeded Listener and if 'false' http using Broker wide Listener &#xA;   same for soap nodes also soapNodesUseEmbeddedListener='true' ):&#xA;&#xA; mqsireportproperties &lt;BrokerName>  -e &lt;ExecutionGroupName> -o ExecutionGrooup -r&#xA;&#xA;2. If we find either http or soap node embeded listener as 'false', then we have make it as 'true' because &#xA;    we should use Embedeb Listener Port . (Bydefault soap nodes uses Embeded listener and Http nodes uses Broker wide listener)&#xA;   if we wants to use Embededlevel lister then set -v = 'true' else for Broker wide listener set -v = 'false'&#xA;&#xA;   mqsichangeproperties &lt;BrokerName> -e &lt;executionGroupName> -o ExecutionGroup  -n httpNodesUseEmbeddedListener/soapNodesUseEmbeddedListener&#xA;  -v true/false .&#xA;&#xA;3.  How tocheck  Broker wide listener as true or false .&#xA;    mqsireportproperties &lt;BrokerName> -b httplistener -o HTTPListener -n startListener .&#xA;&#xA;4. To cahnge Broker wide listener level true or false .&#xA;  mqsichangeproperties &lt;BrokerName> -b httplistener -o HTTPListener -n startListener  -v true/false .&#xA;&#xA;5. To check your http node using embeded or broker level listener ru this command .&#xA;   &#xA;    mqsireportproperties&lt;BrokerName>  -e &lt;ExecutionGroup> -o HTTPConnector -r&#xA;   &#xA;  oputput  for this command : Connector&#xD;&#xA;                                                      port='7800'&#xD;&#xA;                                                      type='Embedded' (if embede then embeded level and if type='Broker' then broker level).&#xA;6. If we wants to change Embedded listener port number then run this command.&#xA;    mqsichangeproperties &lt;BrokerName> -e &lt;ExecutionGroupName> -o HTTPConnector -n explicitlySetPortNumber -v &lt;any portNumber>&#xA;&#xA;7. If we wants to change Broker wide listener port number then use this coo=mmand .&#xA;   mqsichangeproperties &lt;BrokerName> -b httplistener -o HTTPConnector -n port -v &lt;any portNumber>   .&#xA;&#xA;8. stop and start Broker to make changes .&#xD;&#xA;&#xA;&#xA;     &#xA;   &#xA;"/>
+      </stickyNote>
+    </stickyBoard>
+  </eClassifiers>
+</ecore:EPackage>

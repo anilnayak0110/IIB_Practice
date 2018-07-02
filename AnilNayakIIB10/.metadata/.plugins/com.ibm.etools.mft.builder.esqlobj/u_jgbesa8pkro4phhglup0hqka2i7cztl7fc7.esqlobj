@@ -1,0 +1,8 @@
+CREATE COMPUTE MODULE Compute_Delete
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- Copy Message Properties only
+		
+		RETURN TRUE;
+	END;
+END MODULE;

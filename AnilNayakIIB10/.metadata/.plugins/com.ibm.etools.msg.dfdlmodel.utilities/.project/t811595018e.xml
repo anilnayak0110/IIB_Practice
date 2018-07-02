@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MySqlDatabseUsingMappingnode">
+  <XSDCollection href="platform:/resource/MySqlDatabseUsingMappingnode/emp.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MySqlDatabseUsingMappingnode/emp.xsd#//Employees;XSDElementDeclaration" name="Employees"/>
+    <complexType baseType="mlib://MySqlDatabseUsingMappingnode#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MySqlDatabseUsingMappingnode/emp.xsd#//employeeType;XSDComplexTypeDefinition" name="employeeType"/>
+  </XSDCollection>
+</MessageBroker>

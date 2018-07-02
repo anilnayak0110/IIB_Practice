@@ -1,0 +1,17 @@
+
+
+Importing file: C:\Users\bandaru\IBM\IIBT10\workspace\AnilNayakIIB10\DatabaseInput\database.dbm
+
+
+Processing schema database.
+Creating complex type for table employee.
+Creating global element for table employee.
+Creating file \DatabaseInputApp\database\database\database.xsd in the workspace.
+
+Elapsed time processing this message definition file: 10.027 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

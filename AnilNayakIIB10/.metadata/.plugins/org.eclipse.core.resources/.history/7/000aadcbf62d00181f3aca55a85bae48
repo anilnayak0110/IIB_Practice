@@ -1,0 +1,23 @@
+package com.test;
+
+public class Test implements Comparable<Test>{
+
+	/**
+	 * @param args
+	 */
+	String name;
+	
+	public Test(String name) {
+		this.name = name;
+	}
+
+	public static void main(String[] args) {
+           
+	}
+
+	@Override
+	public int compareTo(Test arg0) {
+		return 0;
+	}
+
+}

@@ -1,0 +1,43 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		 CALL    CopyMessageHeaders();
+		 CALL     CopyEntireMessage();
+		 CALL AddExtraElementsInXml();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE AddExtraElementsInXml() BEGIN
+		DECLARE fullname REFERENCE TO InputRoot.XMLNSC.Order.CustomerDetails.Name;
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.CustomerID       = InputRoot.XMLNSC.Order.CustomerDetails.CustomerID;
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.FullName         = fullname.Title        ||''||
+		                                                               fullname.FirstName    ||''||
+		                                                               fullname.Surname;
+	   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Street   = InputRoot.XMLNSC.Order.CustomerDetails.Address.Address1  ||''||
+	                                                                   InputRoot.XMLNSC.Order.CustomerDetails.Address.Address2;
+	                                                                   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Town     = InputRoot.XMLNSC.Order.CustomerDetails.Address.Town;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.State    = InputRoot.XMLNSC.Order.CustomerDetails.Address.State;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Country  = InputRoot.XMLNSC.Order.CustomerDetails.Address.Country;
+	    
+	    SET OutputRoot.XMLNSC.Order.OrderStatus                      = 'Rejected';
+	    
+	    SET OutputRoot.XMLNSC.Order.Items.Item[]                     = InputRoot.XMLNSC.Order.Items.Item[];
+	    SET OutputRoot.XMLNSC.Order.TotalItems                       = CARDINALITY(InputRoot.XMLNSC.Order.Items.Item[]);  
+	END;

@@ -1,0 +1,17 @@
+CREATE COMPUTE MODULE Compute_StateMsg
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN	
+		-- Copy Message Properties only
+		SET OutputRoot.Properties = InputRoot.Properties;
+		-- Put required status into store queue message body
+		SET OutputRoot.JSON.Data.SaveState =  Environment.SaveState;
+
+		-- Note following MQ Header node will create an MQMD and set CorrelId 
+		-- be to the value of the MsgId sent to the MqXmlApp.msgflow Application
+		-- This CorrelId is used by the MQGet node used restore saved HTTP Req Id
+		-- when the MqXmlApp async MQ reply arrives
+
+		RETURN TRUE;
+	END;
+	
+END MODULE;

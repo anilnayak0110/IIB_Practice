@@ -1,0 +1,13 @@
+CREATE FUNCTION ReasonCodeDescMap (IN REASON_CODE CHARACTER ) RETURNS CHARACTER
+	BEGIN
+		DECLARE ReasonDesc CHARACTER;
+		SET ReasonDesc = CASE SUBSTRING( REASON_CODE BEFORE '')
+		WHEN '1' THEN 'Incorrect employee accountnumber'
+		WHEN '2' THEN 'Employee account closed/Blocked'
+		WHEN '3' THEN 'Deceased account holder reached'
+		WHEN '4' THEN 'Dormant Account'
+		WHEN '6' THEN 'Duplicate'
+		ELSE ' '
+		END;
+		RETURN ReasonDesc;	
+	END;

@@ -1,0 +1,46 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL BlobInsert();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE BlobInsert ( )
+	BEGIN
+		DECLARE profRef REFERENCE TO InputRoot.Properties;
+		DECLARE messageBitStream BLOB ASBITSTREAM(InputRoot.XMLNSC,profRef.Encoding,profRef.CodedCharSetId );
+		--INSERT INTO Database.{SCHEMA_NAME}.{TABLE_NAME} (BLOB_DATA) VALUES(messageBitStream);
+		
+		--SET Environment.Data[] = SELECT A.* FROM Database.{SCHEMA_NAME}.{TABLE_NAME} AS A;
+		DECLARE Result ROW;
+		DECLARE SQL_Query CHARACTER;
+		SET SQL_Query = 'SELECT * FROM BLOB_TEST';
+		SET Environment.ROW[] = PASSTHRU(SQL_Query TO Database.MySQLDS);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	END;

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MappingOracleDB">
+  <XSDCollection href="platform:/resource/MappingOracleDB/com/anilnayak/esb/s.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MappingOracleDB/com/anilnayak/esb/s.xsd#//P;XSDElementDeclaration" name="P"/>
+    <complexType baseType="mlib://MappingOracleDB#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MappingOracleDB/com/anilnayak/esb/s.xsd#//NewType;XSDComplexTypeDefinition" name="NewType"/>
+  </XSDCollection>
+</MessageBroker>

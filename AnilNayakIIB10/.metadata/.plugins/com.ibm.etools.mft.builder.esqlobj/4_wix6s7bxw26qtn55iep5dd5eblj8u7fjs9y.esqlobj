@@ -1,0 +1,46 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL TestCDATAattribute();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE  TestCDATAattribute( )
+	BEGIN
+		SET OutputRoot.XMLNSC.item.(XMLNSC.Field)FieldName                                    = null;
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.Attribute)code                                = '1x';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.Attribute)singleAttribute                     = 'SingleAttribute';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.Attribute)doubleAttribute                     = 'DoubleAttribute';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.SingleNamespaceDecl)singleNameSpace           = 'SomeSingleNameSpaceDec1';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.NamespaceDecl)NameSpace                       = 'www.anilnayak.com';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.CDataField)cdata                              = 'Some CDATA';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.Value)value                                   = 'Some Value';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.CDataValue)cdataValue                         = 'CData Value';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.Folder)Folder                                 = 'Some Folder';
+		SET OutputRoot.XMLNSC.item.name.(XMLNSC.DocumentType)Documenttype           		  = 'SomeDocumentType';
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.XmlDeclaration)XmlDeclaration                 = 'SomeXmlDeclaration';
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.EntityReference)EntityReference               = 'SomeEntityReference';
+
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.SingleEntityDefinition)SingleEntityDefinition = 'SomeSingleEntityDefinition';
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.EntityDefinition)EntityDefinition             = 'SomeEntityDefinition';
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.Comment)comment                               = 'SomeComment';
+        SET OutputRoot.XMLNSC.item.name.(XMLNSC.ProcessingInstruction)ProcessingInstruction   = 'SomeProcessingInstruction';
+		
+		
+		
+	END;

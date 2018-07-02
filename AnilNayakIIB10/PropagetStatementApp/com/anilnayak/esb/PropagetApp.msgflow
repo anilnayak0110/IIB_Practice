@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:ComIbmMQOutput.msgnode="ComIbmMQOutput.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/anilnayak/esb/PropagetApp.msgflow" nsPrefix="com_anilnayak_esb_PropagetApp.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="PropagetApp" bundleName="com/anilnayak/esb/PropagetApp" pluginId="PropagetStatementApp"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/PropagetStatementApp/icons/full/obj16/PropagetApp.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/PropagetStatementApp/icons/full/obj30/PropagetApp.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="87,116" queueName="ESB.INPUT" messageDomainProperty="XMLNSC">
+        <translation xmi:type="utility:ConstantString" string="ESB.INPUT"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="433,117" queueName="ESB.OUTPUT">
+        <translation xmi:type="utility:ConstantString" string="MBA"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="427,9" queueName="ESB.OUTPUT">
+        <translation xmi:type="utility:ConstantString" string="IT"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="434,218" queueName="ESB.OUTPUT">
+        <translation xmi:type="utility:ConstantString" string="OTHERS"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_5" location="259,114" computeExpression="esql://routine/com.anilnayak.esb#PropagetApp_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="Compute"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.out2" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard>
+      <stickyNote location="72,193">
+        <body xmi:type="utility:ConstantString" string="Sample XML to be&#xA; supplied as below:&#xA;&#xA;&lt;People>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name1FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name1LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>IT&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N1&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name2FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name2LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>SEC&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N2&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name3FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name3LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>ADMIN&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N3&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name4FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name4LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>IT&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N4&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name5FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name5LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>SEC&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N5&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name6FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name6LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>ADMIN&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N6&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name7FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name7LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>IT&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N7&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name8FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name8LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>SEC&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N8&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&#x9;&lt;Person>&#xD;&#xA;&#x9;&#x9;&lt;FirstName>Name9FN&lt;/FirstName>&#xD;&#xA;&#x9;&#x9;&lt;LastName>Name9LN&lt;/LastName>&#xD;&#xA;&#x9;&#x9;&lt;Profession>ADMIN&lt;/Profession>&#xD;&#xA;&#x9;&#x9;&lt;NName>N9&lt;/NName>&#xD;&#xA;&#x9;&lt;/Person>&#xD;&#xA;&lt;/People>"/>
+      </stickyNote>
+      <stickyNote location="540,189">
+        <body xmi:type="utility:ConstantString" string="Response will propaget to &#xA;specific terminals according to logics of&#xA;ESQL Code .&#xA;"/>
+      </stickyNote>
+    </stickyBoard>
+  </eClassifiers>
+</ecore:EPackage>

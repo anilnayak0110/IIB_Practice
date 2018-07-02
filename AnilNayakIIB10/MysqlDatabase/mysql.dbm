@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.8.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore">
+  <SQLSchema:Database xmi:id="_EcnzgAG7Eeic5bJ-xEdxgw" name="mysql" vendor="MySql" version="5.1" schemas="_EcnzgwG7Eeic5bJ-xEdxgw">
+    <eAnnotations xmi:id="_EcnzgQG7Eeic5bJ-xEdxgw" source="ConnectionURI">
+      <details xmi:id="_EcnzggG7Eeic5bJ-xEdxgw" key="ConnectionKey" value="mysql"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema xmi:id="_EcnzgwG7Eeic5bJ-xEdxgw" name="mysql" database="_EcnzgAG7Eeic5bJ-xEdxgw"/>
+</xmi:XMI>

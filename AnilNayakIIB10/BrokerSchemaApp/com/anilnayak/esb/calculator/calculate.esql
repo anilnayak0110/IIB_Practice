@@ -1,0 +1,19 @@
+BROKER SCHEMA com.anilnayak.esb.calculator
+
+/* Additions */
+	CREATE PROCEDURE addition (IN x1 INTEGER, IN x2 INTEGER ) RETURNS INTEGER
+	BEGIN
+		
+		RETURN x1 + x2;
+	END;
+	
+	CREATE PROCEDURE substraction (IN x1 INTEGER, IN x2 INTEGER)RETURNS INTEGER
+	BEGIN
+	
+		RETURN x1 - x2;
+	END;
+	CREATE PROCEDURE multiplications (IN x1 INTEGER, IN x2 INTEGER )RETURNS INTEGER
+	BEGIN
+
+		RETURN  x1 * x2;
+	END;

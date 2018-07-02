@@ -1,0 +1,5 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		SET OutputRoot.XMLNSC.result.emp = COALESCE(InputRoot.XMLNSC.msg.emp4,'abc');
+		RETURN TRUE;
+	END;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmJMSClientInput.msgnode="ComIbmJMSClientInput.msgnode" xmlns:ComIbmJMSClientOutput.msgnode="ComIbmJMSClientOutput.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/anilnayak/esb/jmsInputOutPut.msgflow" nsPrefix="com_anilnayak_esb_jmsInputOutPut.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="jmsInputOutPut" bundleName="com/anilnayak/esb/jmsInputOutPut" pluginId="JmsInput_JmsOutput"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/JmsInput_JmsOutput/icons/full/obj16/jmsInputOutPut.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/JmsInput_JmsOutput/icons/full/obj30/jmsInputOutPut.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmJMSClientInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="106,62" sourceQueueName="jmsINQ" jmsProviderName="activeMQ" initialContextFactory="org.apache.activemq.jndi.ActiveMQInitialContextFactory" locationJndiBindings="tcp://localhost:61616" connectionFactoryName="ConnectionFactory" messageDomainProperty="XMLNSC">
+        <translation xmi:type="utility:ConstantString" string="JMS Input"/>
+      </nodes>
+      <nodes xmi:type="ComIbmJMSClientOutput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="508,58" destinationQueueName="jmsOUTQ" jmsProviderName="activeMQ" initialContextFactory="org.apache.activemq.jndi.ActiveMQInitialContextFactory" locationJndiBindings="tcp://localhost:61616" connectionFactoryName="ConnectionFactory">
+        <translation xmi:type="utility:ConstantString" string="JMS Output"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="287,61" computeExpression="esql://routine/com.anilnayak.esb#jmsInputOutPut_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="Compute"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard>
+      <stickyNote location="202,116">
+        <body xmi:type="utility:ConstantString" string="Steps:&#xA;1. Download Apache Active MQ From &quot;http://activemq.apache.org/download.html&quot;&#xA;&#xA;2. Start Active MQ by click activemq.bat from your extract location .&#xA;&#xA;3. Then take Jndi.properties file from C:\Users\bandaru\Downloads\apache-activemq-5.13.0-bin\apache-activemq-5.13.0\examples\openwire\swissarmy\src&#xA;&#xA;4. And change the jndi.properties like this:&#xA;         java.naming.factory.initial = org.apache.activemq.jndi.ActiveMQInitialContextFactory&#xD;&#xA;         java.naming.provider.url = vm://localhost&#xD;&#xA;        connectionFactoryNames = &#xD;&#xA;        ConnectionFactory, queueConnectionFactory, topicConnectionFactory&#xD;&#xA;        queue.jmsINQ = IN.Q&#xD;&#xA;        queue.jmsOUTQ = OUT.Q&#xA;   and then save it .&#xA;&#xA;5. Then put that JNDI.properties file in classes folder of MQSI in IIB 9 or in IIB 10 .&#xA;&#xA;6. Then put activemq-all.jar file in shared classes folder of IIB 9 and classes folder of IIB 10 .&#xA;&#xA;7. Then stop the BROKER .&#xA;&#xA;8. Then start the BROKER ."/>
+      </stickyNote>
+    </stickyBoard>
+  </eClassifiers>
+</ecore:EPackage>

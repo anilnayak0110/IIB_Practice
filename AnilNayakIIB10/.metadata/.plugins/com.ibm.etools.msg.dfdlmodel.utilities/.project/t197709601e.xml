@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="RESTRequest_SharedLibrary">
+  <XSDCollection href="platform:/resource/RESTRequest_SharedLibrary/UserData.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/RESTRequest_SharedLibrary/UserData.xsd#//User;XSDElementDeclaration" name="User" type="mlib://RESTRequest_SharedLibrary#/-/complexType{}User"/>
+    <complexType baseType="mlib://RESTRequest_SharedLibrary#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/RESTRequest_SharedLibrary/UserData.xsd#//User;XSDComplexTypeDefinition" name="User"/>
+  </XSDCollection>
+</MessageBroker>

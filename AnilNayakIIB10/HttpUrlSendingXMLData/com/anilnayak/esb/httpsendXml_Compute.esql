@@ -1,0 +1,31 @@
+BROKER SCHEMA com.anilnayak.esb
+
+
+CREATE COMPUTE MODULE httpsendXml_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+	    CALL CopyMessageHeaders();
+	    CALL CopyEntireMessage();
+		CALL SendXmlData();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE  SendXmlData( )
+	BEGIN
+		SET OutputRoot.HTTPReplyHeader."Content-Type" = 'text/xml';
+		SET OutputRoot.XMLNS.Data.name                = 'Anil Kumar Nayak';
+	END;
+END MODULE;

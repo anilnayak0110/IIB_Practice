@@ -1,0 +1,6 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		Insert into Database.{MySQLDataSource}.{SCHEMA_NAME}.{TABLE} (ENAME,SALARY) VALUES (Environment.STR1);
+		RETURN TRUE;
+	END;
+

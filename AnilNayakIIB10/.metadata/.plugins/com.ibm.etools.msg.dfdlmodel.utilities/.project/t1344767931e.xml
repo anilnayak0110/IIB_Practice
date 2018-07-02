@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="JAX-B_Application">
+  <XSDCollection href="platform:/resource/JAX-B_Application/sample.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/JAX-B_Application/sample.xsd#//Employee;XSDElementDeclaration" name="Employee" type="mlib://JAX-B_Application#/-/complexType{}NewType"/>
+    <complexType baseType="mlib://JAX-B_Application#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/JAX-B_Application/sample.xsd#//NewType;XSDComplexTypeDefinition" name="NewType"/>
+    <complexType baseType="mlib://JAX-B_Application#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/JAX-B_Application/sample.xsd#//NewType1;XSDComplexTypeDefinition=1" name="NewType1"/>
+  </XSDCollection>
+</MessageBroker>

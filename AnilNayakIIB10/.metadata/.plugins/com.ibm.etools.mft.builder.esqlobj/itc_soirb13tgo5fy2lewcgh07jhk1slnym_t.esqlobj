@@ -1,0 +1,36 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		 CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE RouteRequest ( )
+	BEGIN
+		SET OutputRoot                 = InputRoot;
+		SET Environment.SaveState.MQMD = InputRoot.MQMD;
+		DECLARE queueName CHARACTER InputRoot.MQMD.SourceQueue;
+		
+		DECLARE targetObject CHARACTER;
+		
+		IF queueName          = 'ESB.GET' THEN
+			SET targetObject  = '*';
+		ELSE
+			THROW USER EXCEPTION MESSAGE 2995 VALUES();
+		END IF;
+		
+	END;

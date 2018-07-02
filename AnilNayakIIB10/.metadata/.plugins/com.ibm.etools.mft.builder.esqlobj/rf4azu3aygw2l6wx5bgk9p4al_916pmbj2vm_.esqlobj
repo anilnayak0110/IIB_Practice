@@ -1,0 +1,5 @@
+CREATE PROCEDURE  InsertIntoDBWithoutQuery( )
+	BEGIN
+		DECLARE InsertRef ROW;
+	   Insert into Database.{MySQLDataSource}.{TABLE} (ENAME,SALARY) VALUES('Heera','30000.00');
+	END;

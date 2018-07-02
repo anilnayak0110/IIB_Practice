@@ -1,0 +1,39 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE ComputeState ( )
+	BEGIN
+		SET OutputRoot                             = InputRoot;
+		SET Environment.SaveState.requestIdentifie = InputLocalEnvironment.Destination.HTTP.RequestIdentifier;
+		SET Environment.SaveState.Method           = InputLocalEnvironment.HTTP.Input.RequestLine.Method;
+		DECLARE targetObject CHARACTER;
+		SET targetObject                            = SUBSTRING(InputLocalEnvironment.HTTP.Input.RequestLine.RequestURI After '/');
+		SET targetObject                            = SUBSTRING(targetObject AFTER '/');
+		
+		DECLARE pading CHARACTER;
+		SET Environment.SaveState.padding = InputLocalEnvironment.HTTP.Input.QueryString.[>];
+		
+		SET targetObject     = REPLACE(targetObject,'%20',' ');
+		
+		IF targetObject      = '' OR targetObject = NULL THEN
+			SET targetObject = '*';
+		END IF;
+	END;

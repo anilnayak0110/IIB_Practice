@@ -1,0 +1,45 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+	    CALL CopyEntireMessage();
+	    CALL ProcessRequestForStringConcatinations();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE ProcessRequestForStringConcatinations ( )
+	BEGIN
+		DECLARE FullName CHARACTER;
+		DECLARE flag BOOLEAN;
+		SET FullName                                    = InputRoot.JSON.Data.Request.firstName ||' '|| InputRoot.JSON.Data.Request.lastName;
+		--USE OF CONTAINS FUNCTION IN STRING 
+		--IF Source String Contains Expression String then it returns 'True' or else Return 'False'
+		SET flag                                        = CONTAINS(FullName,'Gayatree');
+		IF flag = TRUE THEN
+			SET OutputRoot.JSON.Data.Response.FullName  = FullName;   
+		ELSE
+			SET OutputRoot.JSON.Data.Response.FullName  = 'Name Not Found';
+		END IF;
+		--USE ENDSWITH FUNCTION IN STRING
+		-- IF Source String endswith Expression String then it returns 'True' or else Return 'False'
+		SET flag                                        = ENDSWITH(FullName,'Acharya');
+		IF flag = TRUE THEN
+			SET OutputRoot.JSON.Data.Response.FullName  = FullName;
+			--USE LEFT FUNCTION IN STRING
+			SET FullName = LEFT(FullName, 1);
+		ELSE
+			SET OutputRoot.JSON.Data.Response.FullName  = 'Name Not Found';
+		END IF;
+	END;

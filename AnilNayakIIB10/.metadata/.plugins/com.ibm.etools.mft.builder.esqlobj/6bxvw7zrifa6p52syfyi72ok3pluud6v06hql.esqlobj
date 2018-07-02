@@ -1,0 +1,36 @@
+CREATE COMPUTE MODULE updateData_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL UpdateDataUsingPassthru();
+		--CALL UpdateDataWithoutPassThru();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE  UpdateDataUsingPassthru( )
+	BEGIN
+		DECLARE SQL CHARACTER;
+		SET SQL = 'UPDATE EMPLOYEE SET ENAME = ? WHERE EID = ?';
+		PASSTHRU SQL TO Database.{MySqlDataSource} VALUES('aaa',10);
+	END;
+	
+	CREATE PROCEDURE UpdateDataWithoutPassThru( )
+	BEGIN
+		
+		UPDATE Database.test.{TABLE} AS E SET ENAME = 'Heera' WHERE E.EID = 10;
+	END;
+END MODULE;

@@ -1,0 +1,43 @@
+package com.anilnayak.java;
+
+import com.ibm.broker.plugin.MbElement;
+import com.ibm.broker.plugin.MbException;
+import com.ibm.broker.plugin.MbGlobalMap;
+import com.ibm.broker.plugin.MbGlobalMapSessionPolicy;
+
+public class GlobalCache {
+
+	
+	public static Boolean putInCache(MbElement element) {
+
+		String key = null;
+		String value = null;
+		String mapName = null;
+		MbGlobalMap globalMap = null;
+
+		try {
+			MbElement mbElement = element.getFirstChild();
+			while (mbElement != null) {
+				mapName = mbElement.getFirstChild().getValueAsString();
+				globalMap = MbGlobalMap.getGlobalMap(mapName,
+						new MbGlobalMapSessionPolicy(0));
+				MbElement nextElement = mbElement.getFirstChild()
+						.getNextSibling();
+				while (nextElement != null) {
+					key = nextElement.getFirstChild().getValueAsString();
+					value = nextElement.getValueAsString();
+					if (globalMap.containsKey(key)) {
+						globalMap.update(key, value);
+					} else {
+						globalMap.put(key, value);
+					}
+				}
+			}
+		} catch (MbException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+}

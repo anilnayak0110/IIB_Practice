@@ -1,0 +1,9 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		-- Copy Message Properties only
+		SET OutputRoot.Properties = InputRoot.Properties;
+	
+		SET OutputRoot.XMLNSC.Retrieve.CD.Title = Environment.SaveState.target;
+		
+		RETURN TRUE;
+	END;

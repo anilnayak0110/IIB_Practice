@@ -1,0 +1,15 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		-- The HTTP Request node was set to simply replace the message
+		-- tree with the HTTP responce. So we need to remove the
+		-- HTTP headers and restore the MQMD
+		
+		-- Copy the Properties over
+		SET OutputRoot.Properties = InputRoot.Properties;
+		
+		-- Restore the MDMQ for reply
+		SET OutputRoot.MQMD = Environment.SaveSate.MQMD;
+		
+		-- Copy the JSON Data over
+		SET OutputRoot.JSON = InputRoot.JSON;
+	END;

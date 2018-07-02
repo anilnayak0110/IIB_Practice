@@ -1,0 +1,45 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL RemovDuplicateByUsingId();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE RemovDuplicateByUsingId ( )
+	BEGIN
+		DECLARE ID ROW;
+		DECLARE i INTEGER 1;
+		DECLARE flag CHARACTER;
+		FOR source AS InputRoot.XMLNSC.MSG.ItemDescriptor.Record[] DO
+			
+			DECLARE Refe REFERENCE TO ID.Data[>];
+			FOR refField AS ID.Data[] DO
+				IF refField = source.additem.id THEN
+				SET flag = 'YES';
+				END IF;
+			END FOR;
+			
+			IF flag = 'YES' THEN 
+			ELSE
+				SET ID.Data[i] = source.additem.id;
+				CREATE LASTCHILD OF OutputRoot.XMLNSC.Data.ResultData.ID[i]
+			    NAME 'IDVALUE' VALUE source.additem.id ;
+			END IF;
+			SET i = i + 1;
+			SET flag = NULL;
+		END FOR;
+	END;

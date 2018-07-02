@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MappingMySQLDB">
+  <XSDCollection href="platform:/resource/MappingMySQLDB/com/anilnayak/esb/emp.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MappingMySQLDB/com/anilnayak/esb/emp.xsd#//Employees;XSDElementDeclaration" name="Employees"/>
+    <complexType baseType="mlib://MappingMySQLDB#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MappingMySQLDB/com/anilnayak/esb/emp.xsd#//employeeType;XSDComplexTypeDefinition" name="employeeType"/>
+  </XSDCollection>
+</MessageBroker>

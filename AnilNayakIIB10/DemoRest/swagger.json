@@ -1,0 +1,54 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "DemoRest",
+    "version" : "1.0.0",
+    "description" : "DemoRest"
+  },
+  "paths" : {
+    "/addOperation" : {
+      "post" : {
+        "operationId" : "postAddOperation",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a addOperation",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/Request"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/demorest/v1/add",
+  "definitions" : {
+    "Request" : {
+      "type" : "object",
+      "properties" : {
+        "x1" : {
+          "type" : "integer"
+        },
+        "x2" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Response" : {
+      "type" : "object",
+      "properties" : {
+        "y" : {
+          "type" : "integer"
+        }
+      }
+    }
+  }
+}

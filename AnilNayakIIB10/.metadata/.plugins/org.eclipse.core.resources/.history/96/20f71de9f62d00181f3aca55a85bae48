@@ -1,0 +1,30 @@
+package com.test;
+
+import java.util.TreeSet;
+
+public class Test implements Comparable<Test>{
+
+	/**
+	 * @param args
+	 */
+	String name;
+	
+	public Test(String name) {
+		this.name = name;
+	}
+
+	public static void main(String[] args) {
+           TreeSet t = new TreeSet();
+           t.add(new Test("Anil"));
+           t.add(new Test("Gayatree"));
+           t.add(new Test("Bandana"));
+           t.add(new Test("Nami"));
+           System.out.println(t);
+	}
+
+	@Override
+	public int compareTo(Test arg0) {
+		return 0;
+	}
+
+}

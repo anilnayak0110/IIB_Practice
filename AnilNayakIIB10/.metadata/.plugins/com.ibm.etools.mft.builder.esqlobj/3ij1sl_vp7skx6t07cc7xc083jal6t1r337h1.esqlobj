@@ -1,0 +1,61 @@
+CREATE COMPUTE MODULE ComputeJsonReply
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN	
+		
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE  ReplyJson( )
+	BEGIN
+		-- Copy Message Properties only
+		SET OutputRoot.Properties = InputRoot.Properties;
+		
+		-- Restore the HTTP Reply Identifier from the data retreived from
+		-- the Store queue by the MQ Get node
+		SET OutputLocalEnvironment.Destination.HTTP.RequestIdentifier = 
+		      CAST(InputLocalEnvironment.JSON.Data.SaveState.requestIdentifier AS BLOB);
+		      
+		
+		-- Build the JSON client application reply message from the MqXmlApp.msgflow XML response
+		-- In our sample the JSON data structure is a very direct mapping of the XML
+		-- document structure, in which repeating elements become JSON arrays
+		-- To have the JSON data serialize into Array we need to set the JSON.Array Domain
+		-- type on the relevant parent elements
+		--
+		-- Note: When teh JSON parser builds a tree the anonymous items in JSON arrays
+		--       are named Item in the tree. The JSON serializer does not use the element
+		--       name, since the array items are anonymous, so the name can be anything.
+		
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER CARDINALITY(InputRoot.XMLNSC.Response.CD[]);
+
+		IF J > 1 THEN
+			-- We have more than one CD element to return, format as a JSON array
+			SET OutputRoot.JSON.Data = InputRoot.XMLNSC.Response;
+			SET OutputRoot.JSON.Data TYPE = JSON.Array;
+			WHILE I <= J DO
+				-- Format the Member elements from Response.CD.Members as a JSON array
+				SET OutputRoot.JSON.Data.*[I].Members TYPE = JSON.Array;
+				SET I = I+1;
+			END WHILE;
+		ELSE
+			DECLARE cdRef REFERENCE TO InputRoot.XMLNSC.Response.CD;
+			IF LASTMOVE(cdRef) THEN
+				-- We have a single CD element to return, format as a JSON object
+				SET OutputRoot.JSON.Data = cdRef;
+				-- Format the Member elements from Response.CD.Members as a JSON array
+				SET OutputRoot.JSON.Data.Members TYPE = JSON.Array;
+			ELSE
+				-- Empty response, possible result
+				SET OutputRoot.JSON.Data.Status = InputRoot.XMLNSC.Response.Result;
+				
+			END IF;
+		END IF;
+		
+		--Add padding to the tree, if it exists
+		DECLARE paddingRef REFERENCE TO InputLocalEnvironment.JSON.Data.SaveState.padding;
+		IF LASTMOVE(paddingRef) THEN
+			CREATE FIRSTCHILD OF OutputRoot.JSON TYPE NameValue NAME 'Padding' VALUE paddingRef;			
+		END IF;
+		
+	END;
+END MODULE;

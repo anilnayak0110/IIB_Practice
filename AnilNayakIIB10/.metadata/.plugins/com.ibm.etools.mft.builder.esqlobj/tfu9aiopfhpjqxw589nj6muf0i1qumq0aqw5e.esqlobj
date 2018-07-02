@@ -1,0 +1,4 @@
+CREATE PROCEDURE CheckBalance (IN salary CHARACTER)
+RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.checkBalance";

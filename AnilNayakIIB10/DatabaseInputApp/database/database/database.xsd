@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://database/database" xmlns:databasedatabase="http://database/database" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+  <!-- Message definition generated from C:\Users\bandaru\IBM\IIBT10\workspace\AnilNayakIIB10\DatabaseInput\database.dbm -->
+
+<!-- Complex type for database.database.employee -->
+    <xsd:complexType name="employeeType">
+    <xsd:sequence>
+      <xsd:element name="EID" type="xsd:int"/>
+      <xsd:element name="ENAME">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="Salary" type="xsd:decimal"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for database.database.employee -->
+    <xsd:element ibmSchExtn:docRoot="true" name="employee" type="databasedatabase:employeeType"/>
+</xsd:schema>

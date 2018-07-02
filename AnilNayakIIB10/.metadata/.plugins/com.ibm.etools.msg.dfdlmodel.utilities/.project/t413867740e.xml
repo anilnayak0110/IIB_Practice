@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="Transformation_JavaJAXB">
+  <XSDCollection href="platform:/resource/Transformation_JavaJAXB/OutputXMLSchema.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/Transformation_JavaJAXB/OutputXMLSchema.xsd#//SaleEnvelopeA;XSDElementDeclaration" name="SaleEnvelopeA"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Transformation_JavaJAXB/InputXMLSchema.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/Transformation_JavaJAXB/InputXMLSchema.xsd#//SaleEnvelope;XSDElementDeclaration" name="SaleEnvelope"/>
+  </XSDCollection>
+</MessageBroker>

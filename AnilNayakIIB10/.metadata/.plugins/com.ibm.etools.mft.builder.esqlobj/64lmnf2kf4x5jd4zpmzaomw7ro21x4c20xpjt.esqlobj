@@ -1,0 +1,10 @@
+CREATE DATABASE MODULE selectDataUsingDbNode_Database
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		RETURN TRUE;
+	END;
+CREATE PROCEDURE SelectDataFromDB ( )
+BEGIN
+	SET Environment.Data.Result[] = SELECT * FROM Database.{MySQLDataSource}.{TABLE};
+END;
+END MODULE;

@@ -1,0 +1,2 @@
+CREATE FILTER MODULE filterFlow_Filter
+	CREATE FUNCTION Main()

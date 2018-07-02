@@ -1,0 +1,104 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+	    CALL CopyEntireMessage();
+	    CALL ProcessRequestForStringConcatinations();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE ProcessRequestForStringConcatinations ( )
+	BEGIN
+		DECLARE FullName CHARACTER;
+		DECLARE flag BOOLEAN;
+		DECLARE findLength INTEGER;
+		DECLARE convertLower CHARACTER;
+		DECLARE overlay CHARACTER;
+		DECLARE findPosition INTEGER;
+		SET FullName                                    = InputRoot.JSON.Data.Request.firstName ||' '|| InputRoot.JSON.Data.Request.lastName;
+		--USE OF CONTAINS FUNCTION IN STRING 
+		--IF Source String Contains Expression String then it returns 'True' or else Return 'False'
+		SET flag                                        = CONTAINS(FullName,'Gayatree');
+		IF flag = TRUE THEN
+			SET OutputRoot.JSON.Data.Response.FullName  = FullName;   
+		ELSE
+			SET OutputRoot.JSON.Data.Response.FullName  = 'Name Not Found';
+		END IF;
+		--USE ENDSWITH FUNCTION IN STRING
+		-- IF Source String endswith Expression String then it returns 'True' or else Return 'False'
+		SET flag                                        = ENDSWITH(FullName,'Acharya');
+		IF flag = TRUE THEN
+			SET OutputRoot.JSON.Data.Response.FullName  = FullName;
+			--use LENGTH FUNCTION IN STRING
+			--Returns the Length of the String
+			SET findLength                              = LENGTH(FullName);
+			--USE LOWER OR LCASE FUNCTION IN STRING
+			--Convert your Input String to Lower Case 
+			SET convertLower                            = LOWER(FullName);
+			SET convertLower                            = LCASE(FullName);
+			SET FullName                                = 'Gayatree Acharya    ';
+			--use LTRIM FUNTION IN STRING
+			-- IT WILL REMOVE ALL THE LEFT SPACES FROM STRING
+			-- AND IF YOU WILL USE TRIM FUNCTION THEN IT WILL REMOVE SPACES FROM LEFT  AND FROM RIGHT SIDE .
+			SET FullName                                = LTRIM(FullName);
+			SET FullName                                = '    Gayatree Acharya    ';
+			SET FullName                                = TRIM(FullName);
+			--OVERLAY FUNCTION IN STRING
+			--IT OVERRLAP THE PLACING CHARECTER IN THE SOURCE STRING
+			-- HERE IT WILL PLACE '1234' INPLACE OF 'DE' .
+			SET overlay                                 = OVERLAY('ABCDEFGH' PLACING '1234' FROM 4 FOR 2);
+		
+		--POSITION FUNCTION IN STRING
+		--Return the positions of String
+		
+		 SET findPosition =  POSITION('Village' IN 'Hursley Village');
+         SET findPosition = POSITION('Town' IN 'Hursley Village'); 
+         SET findPosition = POSITION ('B' IN 'ABCABCABCABCABC'); 
+         SET findPosition = POSITION ('D' IN 'ABCABCABCABCABC');
+
+         SET findPosition = POSITION ('A' IN 'ABCABCABCABCABC' FROM 4);
+         SET findPosition = POSITION ('C' IN 'ABCABCABCABCABC' FROM 2);
+
+         SET findPosition = POSITION ('B' IN 'ABCABCABCABCABC' REPEAT 2);
+         SET findPosition = POSITION ('C' IN 'ABCABCABCABCABC' REPEAT 4);
+
+         SET findPosition = POSITION ('A' IN 'ABCABCABCABCABC' FROM 4 REPEAT 2);
+         SET findPosition = POSITION ('AB' IN 'ABCABCABCABCABC' FROM 2 REPEAT 3);
+
+         SET findPosition = POSITION ('A' IN 'ABCABCABCABCABC' REPEAT -2);
+         SET findPosition = POSITION ('BC' IN 'ABCABCABCABCABC' FROM 2 REPEAT -3);
+         
+         --REPLACE FUNCTION IN STRING
+         --RETUEN STRING AFTER REPLACING
+         SET overlay      = REPLACE('ABCDABCDABCDA', 'A', 'AA');
+         SET overlay      = REPLACE('AAAABCDEFGHAAAABCDEFGH', 'AA', 'A');
+         SET overlay      = REPLACE('AAAAABCDEFGHAAAABCDEFGH', 'AA', 'XYZ');
+         
+         --REPLICATE FUNCTION IN STRING
+         --IT WILL REPEAT Source String according  to second arguments .
+         SET overlay      = REPLICATE('AnilHeera',3);
+         
+         --USE RIGHT FUNCTION IN STRING
+			--IT RETURNS THE STRING FROM RIGHT SIDE ACCORDING TO WHATEVER INTEGER ARUMENTS WE GAVE .
+			--FRO EXAMPLE The String is 'Hello How are you' then it will return from right side 'He' because I gave '2' as INTEGER ARGUMENT
+			SET OutputRoot.JSON.Data.Response.FullName  = RIGHT(FullName, 2);
+			--USE LEFT FUNCTION IN STRING
+			--IT RETURNS THE STRING FROM LEFT SIDE ACCORDING TO WHATEVER INTEGER ARUMENTS WE GAVE .
+			--FRO EXAMPLE The String is 'Hello How are you' then it will return from left side 'He' because I gave '2' as INTEGER ARGUMENT
+			SET OutputRoot.JSON.Data.Response.FullName  = LEFT(FullName, 2);
+		ELSE
+			SET OutputRoot.JSON.Data.Response.FullName  = 'Name Not Found';
+		END IF;
+	END;

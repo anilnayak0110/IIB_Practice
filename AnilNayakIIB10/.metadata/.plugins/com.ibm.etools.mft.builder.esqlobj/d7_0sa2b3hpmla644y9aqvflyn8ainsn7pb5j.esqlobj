@@ -1,0 +1,44 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		 CALL    CopyMessageHeaders();
+		 CALL     CopyEntireMessage();
+		 CALL AddExtraElementsInXml();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE AddExtraElementsInXml() BEGIN
+		DECLARE Name REFERENCE TO InputRoot.XMLNSC.Order.CustomerDetails.Name;
+		DECLARE Address  REFERENCE TO InputRoot.XMLNSC.Order.CustomerDetails.Address;
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.CustomerID       = InputRoot.XMLNSC.Order.CustomerDetails.CustomerID;
+		
+		SET OutputRoot.XMLNSC.Order.CustomerDetails.FullName         = Name.Title        ||''||
+		                                                               Name.FirstName    ||''||
+		                                                               Name.Surname;
+	   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Street   = Address.Address1      ||''||
+	                                                                   Address.Address2;
+	                                                                   
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Town     = Address.Town;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.State    = Address.State;
+	    SET OutputRoot.XMLNSC.Order.CustomerDetails.Address.Country  = Address.Country;
+	    
+	    SET OutputRoot.XMLNSC.Order.OrderStatus                      = 'Rejected';
+	    
+	    SET OutputRoot.XMLNSC.Order.Items.Item[]                     = InputRoot.XMLNSC.Order.Items.Item[];
+	    SET OutputRoot.XMLNSC.Order.TotalItems                       = CARDINALITY(InputRoot.XMLNSC.Order.Items.Item[]);  
+	END;

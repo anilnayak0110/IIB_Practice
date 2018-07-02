@@ -1,0 +1,7 @@
+CREATE PROCEDURE InsertIntoDBUsingQuery ( )
+	BEGIN
+		DECLARE SQL CHARACTER;
+		--VALUES(Liku,300000.00)';
+		SET SQL = 'INSERT INTO EMPLOYEE(ENAME,SALARY) VALUES(?,?)';
+		SET Environment.Data.Result[]  = PASSTHRU(SQL TO Database.{MySQLDataSource} VALUES('anil',10000));
+	END;

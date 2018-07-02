@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:csv="http://www.ibm.com/dfdl/CommaSeparatedFormat" xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:ibmDfdlExtn="http://www.ibm.com/dfdl/extensions" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+
+
+    <xsd:import namespace="http://www.ibm.com/dfdl/CommaSeparatedFormat" schemaLocation="IBMdefined/CommaSeparatedFormat.xsd"/>
+    <xsd:annotation>
+		<xsd:appinfo source="http://www.ogf.org/dfdl/">
+			<dfdl:format documentFinalTerminatorCanBeMissing="yes" encoding="{$dfdl:encoding}" escapeSchemeRef="csv:CSVEscapeScheme" ref="csv:CommaSeparatedFormat"/>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+
+	<xsd:element ibmSchExtn:docRoot="true" name="nayak">
+		<xsd:complexType>
+			<xsd:sequence dfdl:separator="">
+				<xsd:element dfdl:terminator="%CR;%LF;%WSP*;" name="Header">
+					<xsd:complexType>
+						<xsd:sequence dfdl:separatorSuppressionPolicy="trailingEmpty">
+							<xsd:element ibmDfdlExtn:sampleValue="value1" name="EmployerNumberType" type="xsd:string"/>
+							<xsd:element ibmDfdlExtn:sampleValue="value2" name="EmployerCR-NO" type="xsd:string"/>
+							<xsd:element ibmDfdlExtn:sampleValue="value3" name="PayerNumberType" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value4" name="PayerCR-NO" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value5" name="EmployerName" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value6" name="PayerName" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value7" name="PayerAccountNumberBAN" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value8" name="PayerBankshortName" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value9" name="PayerBarnch" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value10" name="EmployerType" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value11" name="EmployerBusinessType" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value12" name="EmployerBranchesCount" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value13" name="EmployerGrade" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value14" name="EmployerEmail" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value15" name="EmployerAddress" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value16" name="EmployerPhoneNumber" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value17" name="EmployerPostalCode" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value18" name="EmployerP.O.Box" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value19" name="EmployerSignatory1" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value20" name="EmployerSignatory2" type="xsd:string"/>
+                            <xsd:element ibmDfdlExtn:sampleValue="value21" name="EmployerSignatory3" type="xsd:string"/>
+                        </xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>				
+                			<xsd:element maxOccurs="unbounded" name="Record">
+          <xsd:complexType>
+            <xsd:sequence dfdl:outputNewLine="{}" dfdl:terminator="%CR;%LF;">
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,3}" name="field1" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,20}" name="field2" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,3}" name="field3" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,20}" name="field4" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="[\w\s]{0,70}" name="field5" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="[\w\s]{0,70}" name="field6" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,30}" name="field7" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,4}" name="field8" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="[\w\s]{0,12}" name="field9" type="xsd:string"/>
+              <xsd:element  dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,7}" name="field10" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="[\w\s]{0,70}" name="field11" type="xsd:string"/>
+              <xsd:element  dfdl:lengthKind="pattern" dfdl:lengthPattern="\w{0,3}" name="field12" type="xsd:string"/>
+              <xsd:element   dfdl:lengthKind="pattern" dfdl:lengthPattern="[a-zA-Z]{0,1}" name="field13" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="[a-zA-Z]{0,1}" name="field14" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern="([\w\.-]*@[a-zA-Z]+\.[a-zA-Z]{2,4}){0,254}" name="field15" type="xsd:string"/>
+              <xsd:element name="field16" type="xsd:string"/>
+              <xsd:element name="field17" type="xsd:string"/>
+              <xsd:element name="field18" type="xsd:string"/>
+              <xsd:element name="field19" type="xsd:string"/>
+              <xsd:element name="field20" type="xsd:string"/>
+              <xsd:element dfdl:lengthKind="pattern" dfdl:lengthPattern=".*" name="field21" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+            </xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+</xsd:schema>

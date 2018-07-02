@@ -1,0 +1,390 @@
+CREATE COMPUTE MODULE CBS_Response_Compute
+	DECLARE WPS_SIF_HEADER_INFO EXTERNAL CHARACTER;
+	DECLARE WPS_SIF_RECORD_INFO EXTERNAL CHARACTER;
+	DECLARE WPS_ADD_OPS_INFO EXTERNAL CHARACTER;
+	DECLARE DC_CONFIG_VALUES EXTERNAL CHARACTER;
+	DECLARE USER EXTERNAL CHARACTER;
+	DECLARE WORKSTATION EXTERNAL CHARACTER;
+	DECLARE CHANNELRESERVED EXTERNAL CHARACTER;
+	DECLARE CHANNEL EXTERNAL CHARACTER;
+	DECLARE CURRENCY EXTERNAL CHARACTER;
+	DECLARE PAYER_BIC EXTERNAL CHARACTER;
+	DECLARE LOG4J_CONF_FILE EXTERNAL CHARACTER;
+	DECLARE MAX_CBS_RETRY EXTERNAL INTEGER;
+	DECLARE rc BOOLEAN;
+	DECLARE Invalid_FaultCode CHARACTER;
+	DECLARE CbsRetryCount INTEGER 1;
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL initLog4j(LOG4J_CONF_FILE) INTO rc;
+		IF ( rc = FALSE ) THEN
+			DECLARE msg CHARACTER ;
+			SET msg = 'Log4J Initialization failed.';
+		END IF;
+		DECLARE bool BOOLEAN;
+		SET bool = CopyEntireMessage();
+		RETURN bool;
+	END;
+	CREATE PROCEDURE CopyEntireMessage()RETURNS BOOLEAN BEGIN
+		IF FIELDNAME(InputExceptionList.[1]) IS NULL THEN
+
+			SET Environment.Properties = InputRoot.Properties;
+
+			DECLARE status,txRefId,txRefType,SifFileName,headerBankCode,recodeBankCode,recordId,cbsPayRef,failRsn,faultCode CHARACTER;
+			SET Environment.status = InputRoot.XMLNSC.*:Reply.*:Header.*:replyStatus;
+			SET Environment.txRefId = InputRoot.XMLNSC.*:Reply.*:Header.*:transactionReference;
+			SET Environment.cbsPayRef = InputRoot.XMLNSC.*:Reply.*:Data.*:FinancialTransaction.*:reference;
+			SET Environment.failRsn = InputRoot.XMLNSC.*:Reply.*:Fault.*:faultString;
+			SET Environment.faultCode = InputRoot.XMLNSC.*:Reply.*:Fault.*:faultCode;
+			SET Environment.faultNumber = COALESCE(InputRoot.XMLNSC.*:Reply.*:Fault.*:detail.*:faultNumber,'');
+			CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','Response received from CBS with ref - ' || Environment.txRefId) INTO rc;
+			-- SET Environment.txRefType = SUBSTRING(txRefId FROM 1 FOR 3);
+			DECLARE ref ROW;
+			DECLARE counter INTEGER 1;
+			SET Environment.dbQueryCount = '22';
+			CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+			IF Environment.Exception = 'True' THEN
+				RETURN FALSE;
+			END IF;
+
+			DECLARE flowName CHARACTER MessageFlowLabel;
+
+
+			IF Environment.txRefId LIKE '24H%' THEN
+				/*For PAYER DEBIT SUCCESS OR FAILURE*/
+				IF Environment.status = 'FIN' THEN
+					SET Environment.dbQueryCount = '23';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','PAYER DEBIT Success -' || Environment.txRefId) INTO rc;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','Crediting Employee and Settlement Account in Process') INTO rc;
+					DECLARE RECORDREF REFERENCE TO Environment.records[>];
+
+					WHILE LASTMOVE(RECORDREF) DO
+						IF EXISTS(RECORDREF.EMPLOYEE_BANK_CODE[]) THEN
+
+							IF PAYER_BIC = RECORDREF.EMPLOYEE_BANK_CODE THEN
+
+								SET OutputRoot.XMLNSC.urn:Request.(XMLNSC.NamespaceDecl)xmlns:urn = urn;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:channel = CHANNEL;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:user = USER;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:workstation = WORKSTATION;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionDate = CAST(CURRENT_GMTDATE AS CHARACTER FORMAT 'yyyy-MM-dd');
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionTime = CAST(CURRENT_TIME AS CHARACTER FORMAT 'HH:mm:ss');
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionReference = '24E'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyMMddHHmmssSSS')||CAST(counter AS CHARACTER);
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:channelReserved = CHANNELRESERVED;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.(XMLNSC.Attribute)optionIdentifier = Environment.header.PAYMENT_TYPE||'_'||'CBS_EMP_CREDIT_REQ_SENT';
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:account = RECORDREF.EMPLOYEE_ACC_NO;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:amount = RECORDREF.NET_SALARY;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:currency = CURRENCY;
+
+								SET Environment.var.SIF_FILE = RECORDREF.SIF_FILE_NAME;
+								SET Environment.var.recTxId = RECORDREF.RECORD_ID;
+								SET Environment.var.TXN_REF_ID = OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionReference;
+								/*Narratives for Crediting to Employee account which in On us*/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:userReference = Environment.header.REFERENCE; /*CBS Reference*/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[1] = Environment.header.SALARY_YEAR||'/'||Environment.header.SALARY_MONTH; /**/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[2] = Environment.header.PAYER_CRNO;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[3] = RECORDREF.REFERENCE_NUMBER;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[4] = SUBSTRING(Environment.header.SIF_CBO_FILE_NAME AFTER 'SIF_');
+
+								DECLARE cbsReqMessage BLOB ASBITSTREAM(OutputRoot.XMLNSC,InputRoot.Properties.Encoding,InputRoot.Properties.CodedCharSetId);
+								SET Environment.CbsReqMessage.message = CAST(cbsReqMessage AS CHARACTER CCSID InputRoot.Properties.CodedCharSetId);
+
+								SET Environment.dbQueryCount = '24';
+								CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+								IF Environment.Exception = 'True' THEN
+									RETURN FALSE;
+								END IF;
+								PROPAGATE TO TERMINAL 'out';
+							ELSE
+
+								SET OutputRoot.XMLNSC.urn:Request.(XMLNSC.NamespaceDecl)xmlns:urn = urn;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:channel = CHANNEL;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:user = USER;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:workstation = WORKSTATION;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionDate = CAST(CURRENT_GMTDATE AS CHARACTER FORMAT 'yyyy-MM-dd');
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionTime = CAST(CURRENT_TIME AS CHARACTER FORMAT 'HH:mm:ss');
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionReference = '24S'||CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyMMddHHmmssSSS')||CAST(counter AS CHARACTER);
+								SET OutputRoot.XMLNSC.urn:Request.urn:Header.urn:channelReserved = CHANNELRESERVED;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.(XMLNSC.Attribute)optionIdentifier = Environment.header.PAYMENT_TYPE||'_'||'CBS_STLEACC_CREDIT_REQ_SENT';
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:account = Environment.config.DC_STLMNT_ACC;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:amount = RECORDREF.NET_SALARY;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:currency = CURRENCY;
+
+								SET Environment.var.SIF_FILE = RECORDREF.SIF_FILE_NAME;
+								SET Environment.var.recTxId = RECORDREF.RECORD_ID;
+								SET Environment.var.TXN_REF_ID = OutputRoot.XMLNSC.urn:Request.urn:Header.urn:transactionReference;
+								/*Narratives for Crediting to Settlement account for otherbank*/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:userReference = Environment.header.REFERENCE; /*CBS Reference*/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[1] = Environment.header.SALARY_YEAR||'/'||Environment.header.SALARY_MONTH; /**/
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[2] = Environment.header.PAYER_CRNO;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[3] = RECORDREF.REFERENCE_NUMBER;
+								SET OutputRoot.XMLNSC.urn:Request.urn:Data.urn:SingleEntryFinancialTransaction.urn:narratives.urn:narrative[4] = SUBSTRING(Environment.header.SIF_CBO_FILE_NAME AFTER 'SIF_');
+
+								DECLARE cbsReqMessage BLOB ASBITSTREAM(OutputRoot.XMLNSC,InputRoot.Properties.Encoding,InputRoot.Properties.CodedCharSetId);
+								SET Environment.CbsReqMessage.message = CAST(cbsReqMessage AS CHARACTER CCSID InputRoot.Properties.CodedCharSetId);
+								SET Environment.dbQueryCount = '25';
+								CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+								IF Environment.Exception = 'True' THEN
+									RETURN FALSE;
+								END IF;
+
+								PROPAGATE TO TERMINAL 'out';
+							END IF;
+						END IF;
+						SET counter = counter + 1;
+						MOVE RECORDREF NEXTSIBLING;
+					END WHILE;
+
+				ELSE
+					/*PAYER DEBIT FAILED RESPONSE UPDATION IN DB*/
+					/*+++++++++++++++++++++*/
+					IF Environment.faultNumber='2999' OR Environment.faultNumber ='2996' THEN
+						SET Environment.dbQueryCount = '29A';
+						CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+						IF Environment.Exception = 'True' THEN
+							RETURN FALSE;
+						END IF;
+						SET Environment.CBSCOUNT= CAST(SUBSTRING(Environment.HeaderCbsCount.CBS_FAULT_CODE AFTER ':') AS INTEGER);
+						CALL writeToLogFile(flowName, 'wps_info', 'INFO','Receive Failed response from CBS with retrycount :'||Environment.CBSCOUNT ||' Falut_code:'|| Environment.faultCode || 'Fault_Number:'||Environment.faultNumber) INTO rc;
+						IF Environment.CBSCOUNT IS NOT NULL THEN
+							IF Environment.CBSCOUNT <= MAX_CBS_RETRY THEN
+								SET CbsRetryCount = CAST(Environment.CBSCOUNT AS INTEGER) + 1;
+								SET Environment.STATUS= 'CBS_PAYER_DEBIT_SENT';
+								SET Environment.faultNumber = Environment.faultNumber ||':'|| CAST(CbsRetryCount AS CHARACTER);
+							ELSE
+								SET Environment.STATUS= 'CBS_PAYER_DEBIT_FAILED';
+							END IF ;
+						ELSE
+							SET Environment.faultNumber = Environment.faultNumber ||':'||CAST(CbsRetryCount AS CHARACTER);
+							SET Environment.STATUS= 'CBS_PAYER_DEBIT_SENT';
+						END IF;
+
+					ELSE
+						CALL writeToLogFile(flowName, 'wps_info', 'INFO','Receive Failed response from CBS with Falut_code:'|| Environment.faultCode ) INTO rc;
+						SET Environment.STATUS= 'CBS_PAYER_DEBIT_FAILED';
+					END IF;
+					/*+++++++++++++++++++++*/
+
+					SET Environment.dbQueryCount = '26';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+
+				END IF;
+			END IF;
+			/*EMPLOYEE CREDIT RESPONSE UPDATION IN HOUSE TRANSACITON*/
+			IF SUBSTRING(Environment.txRefId FROM 1 FOR 3) = '24E' THEN
+
+				IF Environment.status = 'FIN' THEN
+					SET Environment.dbQueryCount = '27';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','receiving success response from CBS for transaction reference - '|| Environment.txRefId||' and update status as CBS_EMP_CREDIT_SUCCESS') INTO rc;
+				ELSE
+					/*+++++++++++++++++++++*/
+					SET Invalid_FaultCode= Cbs_FaultCode(Environment.faultCode);
+					IF Environment.faultNumber='2999' OR Environment.faultNumber ='2996' THEN
+						SET Environment.dbQueryCount = '29B';
+						CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+						IF Environment.Exception = 'True' THEN
+							RETURN FALSE;
+						END IF;
+						SET Environment.CBSCOUNT= CAST(SUBSTRING(Environment.RecordCbsCount.CBS_FAULT_CODE AFTER ':') AS INTEGER);
+						CALL writeToLogFile(flowName, 'wps_info', 'INFO','Receive Failed response from CBS with retrycount :'||Environment.CBSCOUNT ||' Falut_code:'|| Environment.faultCode || 'Fault_Number:'||Environment.faultNumber) INTO rc;
+						IF Environment.CBSCOUNT IS NOT NULL THEN
+							IF Environment.CBSCOUNT <= MAX_CBS_RETRY THEN
+								SET CbsRetryCount = CAST(Environment.CBSCOUNT AS INTEGER) + 1;
+								SET Environment.STATUS= 'CBS_EMP_CREDIT_REQ_SENT';
+								SET Environment.faultNumber = Environment.faultNumber ||':'|| CAST(CbsRetryCount AS CHARACTER);
+							ELSE
+								SET Environment.STATUS= 'CBS_EMP_CREDIT_FAILURE';
+							END IF ;
+						ELSE
+							SET Environment.faultNumber = Environment.faultNumber ||':'||CAST(CbsRetryCount AS CHARACTER);
+							SET Environment.STATUS= 'CBS_EMP_CREDIT_REQ_SENT';
+						END IF;
+					ELSEIF Invalid_FaultCode = 'FALSE' THEN
+						SET Environment.faultNumber = '2999'||':'||'5';
+						SET Environment.STATUS= 'CBS_EMP_CREDIT_FAILURE';
+					ELSE
+						SET Environment.STATUS= 'CBS_EMP_CREDIT_FAILURE';
+					END IF;
+					/*+++++++++++++++++++++*/
+
+					SET Environment.dbQueryCount = '28';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','receiving failure response from CBS for transaction reference - '|| txRefId||' and update status as CBS_EMP_CREDIT_FAILURE') INTO rc;
+				END IF;
+
+			END IF;
+			/*UPDATION OF CREDIT SETTLEMENT ACOUNT RESPOSNE FOR OTHER BANK TRANSACTION*/
+			IF SUBSTRING(Environment.txRefId FROM 1 FOR 3) = '24S' THEN
+				IF Environment.status = 'FIN' THEN
+					SET Environment.dbQueryCount = '29';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','receiving success response from CBS for transaction reference - '|| Environment.txRefId||' and update status as CBS_STLEACC_CREDIT_SUCCESS') INTO rc;
+				ELSE
+					/*Updating Satatus when STELMENT CREDIT FAIL*/
+					/*+++++++++++++++++++++*/
+					SET Invalid_FaultCode= Cbs_FaultCode(Environment.faultCode);
+					IF Environment.faultNumber='2999' OR Environment.faultNumber ='2996' THEN
+						SET Environment.dbQueryCount = '29B';
+						CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+						IF Environment.Exception = 'True' THEN
+							RETURN FALSE;
+						END IF;
+						SET Environment.CBSCOUNT= CAST(SUBSTRING(Environment.RecordCbsCount.CBS_FAULT_CODE AFTER ':') AS INTEGER);
+						CALL writeToLogFile(flowName, 'wps_info', 'INFO','Receive Failed response from CBS with retrycount :'||Environment.CBSCOUNT ||' Falut_code:'|| Environment.faultCode || 'Fault_Number:'||Environment.faultNumber) INTO rc;
+						IF Environment.CBSCOUNT IS NOT NULL THEN
+							IF Environment.CBSCOUNT <= MAX_CBS_RETRY THEN
+								SET CbsRetryCount = CAST(Environment.CBSCOUNT AS INTEGER) + 1;
+								SET Environment.STATUS= 'CBS_STLEACC_CREDIT_REQ_SENT';
+								SET Environment.faultNumber = Environment.faultNumber ||':'|| CAST(CbsRetryCount AS CHARACTER);
+							ELSE
+								SET Environment.STATUS= 'CBS_STLEACC_CREDIT_FAILURE';
+							END IF ;
+						ELSE
+							SET Environment.faultNumber = Environment.faultNumber ||':'||CAST(CbsRetryCount AS CHARACTER);
+							SET Environment.STATUS= 'CBS_STLEACC_CREDIT_REQ_SENT';
+						END IF;
+
+					ELSEIF Invalid_FaultCode = 'FALSE' THEN
+						SET Environment.faultNumber = '2999'||':'||'5';
+						SET Environment.STATUS= 'CBS_STLEACC_CREDIT_FAILURE';
+					ELSE
+						SET Environment.STATUS= 'CBS_STLEACC_CREDIT_FAILURE';
+					END IF;
+					/*+++++++++++++++++++++*/
+					SET Environment.dbQueryCount = '30';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','receiving failure response from CBS for transaction reference - '|| Environment.txRefId||' and update status as CBS_STLEACC_CREDIT_FAILURE') INTO rc;
+				END IF;
+
+			END IF;
+			/*RERSING THE ACCOUNTING ENTRIES RESPONSE FROM CBS*/
+			IF SUBSTRING(Environment.txRefId FROM 1 FOR 3) = '24R' THEN
+
+				IF Environment.status = 'FIN' THEN
+					SET Environment.dbQueryCount = '27A';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+					CALL writeToLogFile(flowName, 'wps_info', 'INFO','receiving success response from CBS for transaction reference - '|| Environment.txRefId||' and update status as CBS_EMP_CREDIT_SUCCESS') INTO rc;
+				ELSE
+					/*Retrying for Specific Error Codes*/
+					SET Invalid_FaultCode= Cbs_FaultCode(Environment.faultCode);
+					IF Environment.faultNumber='2999' OR Environment.faultNumber ='2996' THEN
+						SET Environment.dbQueryCount = '29B';
+						CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+						IF Environment.Exception = 'True' THEN
+							RETURN FALSE;
+						END IF;
+						SET Environment.CBSCOUNT= CAST(SUBSTRING(Environment.RecordCbsCount.CBS_FAULT_CODE AFTER ':') AS INTEGER);
+						CALL writeToLogFile(flowName, 'wps_info', 'INFO','Receive Failed response from CBS with retrycount :'||Environment.CBSCOUNT ||' Falut_code:'|| Environment.faultCode || 'Fault_Number:'||Environment.faultNumber) INTO rc;
+						IF Environment.CBSCOUNT IS NOT NULL THEN
+							IF Environment.CBSCOUNT <= MAX_CBS_RETRY THEN
+								SET CbsRetryCount = CAST(Environment.CBSCOUNT AS INTEGER) + 1;
+								SET Environment.STATUS= 'CBS_PAYER_CRDIT_SENT';
+								SET Environment.faultNumber = Environment.faultNumber ||':'|| CAST(CbsRetryCount AS CHARACTER);
+							ELSE
+								SET Environment.STATUS= 'CBS_PAYER_CREDIT_FAILURE';
+							END IF ;
+						ELSE
+							SET Environment.faultNumber = Environment.faultNumber ||':'||CAST(CbsRetryCount AS CHARACTER);
+							SET Environment.STATUS= 'CBS_PAYER_CRDIT_SENT';
+						END IF;
+
+					ELSEIF Invalid_FaultCode = 'FALSE' THEN
+						SET Environment.faultNumber = '2999'||':'||'5';
+						SET Environment.STATUS= 'CBS_PAYER_CREDIT_FAILURE';
+					ELSE
+						SET Environment.STATUS= 'CBS_PAYER_CREDIT_FAILURE';
+					END IF;
+					SET Environment.dbQueryCount = '28A';
+					CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+					IF Environment.Exception = 'True' THEN
+						RETURN FALSE;
+					END IF;
+				END IF;
+
+
+
+			END IF;
+			RETURN FALSE;
+		ELSE
+			IF FIELDNAME(InputExceptionList.[1]) IS NOT NULL AND Environment.variables.count >= 1 THEN
+				SET OutputExceptionList = InputExceptionList;
+				CALL com.oab.exceptionhandler.DBInsertion(LOG4J_CONF_FILE, InputRoot, InputExceptionList, Environment, OutputRoot);
+			ELSE
+				SET OutputRoot.Properties = Environment.Properties;
+				CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC' PARSE(Environment.srcMsg,Environment.Properties.Encoding,Environment.Properties.CodedCharSetId);
+				SET OutputExceptionList = InputExceptionList;
+				SET Environment.RetryQueue = 'WPS_RETRY_Q';
+				PROPAGATE TO TERMINAL 'out3' DELETE NONE;
+				SET Environment.Exception = 'True';
+			END IF;
+		END IF;
+	END;
+
+	CREATE PROCEDURE Cbs_FaultCode(IN FaultCode CHARACTER) RETURNS CHARACTER BEGIN
+
+		DECLARE FaultCodeExists CHARACTER;
+		SET FaultCodeExists = CASE FaultCode
+		WHEN 'KSM2035' THEN 'TRUE'
+		WHEN 'KSM0104' THEN 'TRUE'
+		WHEN 'KSM0106' THEN 'TRUE'
+		WHEN 'KSM0261' THEN 'TRUE'
+		WHEN 'KSM0669' THEN 'TRUE'
+		WHEN 'KSM0847' THEN 'TRUE'
+		WHEN 'KSM1164' THEN 'TRUE'
+		WHEN 'KSM1885' THEN 'TRUE'
+		WHEN 'KSM1886' THEN 'TRUE'
+		WHEN 'KSM1894' THEN 'TRUE'
+		WHEN 'KSM2078' THEN 'TRUE'
+		WHEN 'KSM2081' THEN 'TRUE'
+		WHEN 'KSM2086' THEN 'TRUE'
+		WHEN 'KSM2256' THEN 'TRUE'
+		WHEN 'KSM2613' THEN 'TRUE'
+		WHEN 'KSM4049' THEN 'TRUE'
+		WHEN 'KSM4050' THEN 'TRUE'
+		WHEN 'KSM4240' THEN 'TRUE'
+		WHEN 'KSM4283' THEN 'TRUE'
+		WHEN 'KSM4350' THEN 'TRUE'
+		WHEN 'KSM4701' THEN 'TRUE'
+		WHEN 'KSM4702' THEN 'TRUE'
+		WHEN 'KSM5714' THEN 'TRUE'
+		WHEN 'KSM5715' THEN 'TRUE'
+		WHEN 'KSM5830' THEN 'TRUE'
+		WHEN 'KSM0148' THEN 'TRUE'
+		WHEN 'KSM5362' THEN 'TRUE'
+		WHEN 'KSM5625' THEN 'TRUE'
+		WHEN 'KSM0149' THEN 'TRUE'
+		WHEN 'KSM2630' THEN 'TRUE'
+		WHEN 'KSM0125' THEN 'TRUE'
+		WHEN 'KSM0145' THEN 'TRUE'
+		WHEN 'KSM2010' THEN 'TRUE'
+		WHEN 'USM0128' THEN 'TRUE'
+			ELSE 'FALSE' /*TESTING PURPOSE*/
+
+		END;
+		RETURN FaultCodeExists;
+	END;
+END MODULE;

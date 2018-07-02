@@ -1,0 +1,29 @@
+CREATE COMPUTE MODULE InputBody_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE AddExtraElement ( )
+	BEGIN
+		DECLARE OutRef REFERENCE TO OutputRoot.XMLNSC.Employees;
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.Employees AS OutRef NAME 'Data';
+		
+		SET OutputRoot.XMLNSC.Employees.Employee = InputBody.employees.employee ;
+	END;
+END MODULE;

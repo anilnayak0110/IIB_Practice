@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmMQGet.msgnode="ComIbmMQGet.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="com/oab/cbofinalstatus/ACH_TXN_ReportInsertDB.msgflow"
+    nsPrefix="com_oab_cbofinalstatus_ACH_TXN_ReportInsertDB.msgflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.SCH_NAME" name="SCH_NAME" defaultValueLiteral="ACHADMIN">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.TXN_REPORT_TABLE" name="TXN_REPORT_TABLE" defaultValueLiteral="TXN_REPORT">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="ACH_TXN_ReportInsertDB" bundleName="com/oab/cbofinalstatus/ACH_TXN_ReportInsertDB" pluginId="ACH_Connector_Project"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/ACH_Connector_Project/icons/full/obj16/ACH_TXN_ReportInsertDB.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/ACH_Connector_Project/icons/full/obj30/ACH_TXN_ReportInsertDB.gif"/>
+    <composition>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="92,121" queueName="TXN_REPORT_INSERT_Q" messageDomainProperty="XMLNSC" browse="true" resetBrowseTimeout="10000">
+        <translation xmi:type="utility:ConstantString" string="TXN_REPORT_INSERT_Q"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="283,121" dataSource="CBOACH" computeExpression="esql://routine/com.oab.cbofinalstatus#ACH_TXN_ReportInsertDB_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="InsertTxnIntoDB"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQGet.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="500,123" queueName="TXN_REPORT_INSERT_Q" getWithMessageID="true">
+        <translation xmi:type="utility:ConstantString" string="MQ Get"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="286,33" computeExpression="esql://routine/com.oab.cbofinalstatus#ACH_TXN_ReportInsertDB_HandleException.Main">
+        <translation xmi:type="utility:ConstantString" string="HandleFailures"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.catch" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.SCH_NAME">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.SCH_NAME" bundleName="com/oab/cbofinalstatus/ACH_TXN_ReportInsertDB" pluginId="ACH_Connector_Project"/>
+        <propertyDescriptor groupName="Group.Basic" configurable="true" userDefined="true" describedAttribute="Property.TXN_REPORT_TABLE">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.TXN_REPORT_TABLE" bundleName="com/oab/cbofinalstatus/ACH_TXN_ReportInsertDB" pluginId="ACH_Connector_Project"/>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

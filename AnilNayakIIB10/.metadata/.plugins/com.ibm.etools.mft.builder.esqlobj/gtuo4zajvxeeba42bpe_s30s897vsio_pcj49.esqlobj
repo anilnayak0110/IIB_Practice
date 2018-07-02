@@ -1,0 +1,46 @@
+CREATE COMPUTE MODULE UsingSelect_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL GetNameUsingEmpId();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE GetNameUsingEmpId ( )
+	BEGIN
+		DECLARE EmpRef REFERENCE TO InputRoot.XMLNSC.details[>];
+
+		WHILE LASTMOVE(EmpRef) DO
+			
+			SET Environment.id 		= EmpRef.employee.id;
+			SET Environment.name 	= EmpRef.employee.name;
+			SET Environment.company = EmpRef.employee.company;
+		
+			
+			SET OutputRoot.XMLNSC.Data.Output[] =
+                                                 (SELECT R.name AS Employee.Name, 
+                                                         R.company   AS Employee.CompanyName
+                                                         FROM InputRoot.XMLNSC.details.empolyee[] AS R
+                                                         WHERE R.id = 209
+                                                  );
+			
+		  
+		 
+			MOVE EmpRef NEXTSIBLING;
+		END WHILE;
+	END;
+END MODULE;

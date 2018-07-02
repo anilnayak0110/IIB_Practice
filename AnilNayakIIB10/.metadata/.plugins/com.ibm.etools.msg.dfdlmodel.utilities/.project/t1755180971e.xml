@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MappingNodeApp">
+  <XSDCollection href="platform:/resource/MappingNodeApp/com/anilnayak/esb/mapping.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MappingNodeApp/com/anilnayak/esb/mapping.xsd#//P;XSDElementDeclaration" name="P"/>
+    <complexType baseType="mlib://MappingNodeApp#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/MappingNodeApp/com/anilnayak/esb/mapping.xsd#//NewType;XSDComplexTypeDefinition" name="NewType"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/MappingNodeApp/IBMdefined/CommaSeparatedFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+  <XSDCollection href="platform:/resource/MappingNodeApp/com/anilnayak/esb/mapcsv.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/CommaSeparatedFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+    <element href="platform:/resource/MappingNodeApp/com/anilnayak/esb/mapcsv.xsd#//mapcsv;XSDElementDeclaration" name="mapcsv"/>
+  </XSDCollection>
+</MessageBroker>

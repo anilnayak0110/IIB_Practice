@@ -1,0 +1,62 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE RouteToTransform ( )
+	BEGIN
+		DECLARE SUM DECIMAL 0.00;
+		DECLARE I INTEGER 1;
+		DECLARE STATE CHARACTER;
+		DECLARE J INTEGER;
+		DECLARE TAX DECIMAL;
+		SET STATE = InputRoot.XMLNSC.Order.CustomerDetails.Address.State;
+
+		IF STATE IN('NY','NG') THEN
+			
+			SET OutputLocalEnvironment.Destination.RouterList.DestinationData[1].labelname = 'EASTCOAST';
+			
+		ELSEIF STATE IN('NN','NO') THEN
+			
+			SET OutputLocalEnvironment.Destination.RouterList.DestinationData[1].labelname = 'WESTCOST';
+			
+		ELSE
+			
+			SET OutputLocalEnvironment.Destination.RouterList.DestinationData[1].labelname = 'NORTHCOAST';
+			
+		END IF;
+
+		SET J        = CARDINALITY(InputRoot.XMLNSC.Order.Items.Item[]);
+		WHILE I<= J DO
+			SET SUM  = SUM + CAST(InputRoot.XMLNSC.Order.Items.Item[I].price AS DECIMAL);
+			SET I    = I + 1;
+		END WHILE;
+		--calculating TAX depending on the State field
+		IF STATE     = 'NY'
+			THEN
+			SET TAX  = (SUM*7)/100;
+		ELSEIF STATE = 'NG'
+			THEN
+			SET TAX  = (SUM*9)/100;
+		ELSEIF STATE = 'NN'
+			THEN
+			SET TAX  = (SUM*8)/100;
+		ELSE
+			SET TAX  = 0;
+		END IF;
+	END;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="AshokTaskUsingSelect">
+  <XSDCollection href="platform:/resource/AshokTaskUsingSelect/IBMdefined/CommaSeparatedFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+  <XSDCollection href="platform:/resource/AshokTaskUsingSelect/anil.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/CommaSeparatedFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+    <element href="platform:/resource/AshokTaskUsingSelect/anil.xsd#//anil;XSDElementDeclaration" name="anil"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/AshokTaskUsingSelect/nayak.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/CommaSeparatedFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/CommaSeparatedFormat"/>
+    <element href="platform:/resource/AshokTaskUsingSelect/nayak.xsd#//ADD_;XSDElementDeclaration" name="ADD_"/>
+  </XSDCollection>
+</MessageBroker>

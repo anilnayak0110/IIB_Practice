@@ -1,0 +1,263 @@
+/* Input::
+
+  <Invoice>
+  <InvoiceNo>300524</InvoiceNo>
+  <InvoiceDate>2000-12-07</InvoiceDate>
+  <InvoiceTime>12:40:00</InvoiceTime>
+  <TillNumber>3</TillNumber>
+  <Cashier StaffNo='089'>Atul</Cashier>
+  <Customer>
+    <FirstName>Anil</FirstName>
+    <LastName>Nayak</LastName>
+    <Title>Mr</Title>
+    <DOB>20-01-70</DOB>
+    <PhoneHome>01962818000</PhoneHome>
+    <PhoneWork />
+    <Billing>
+      <Address>14 High Street</Address>
+      <Address>Hursley Village</Address>
+      <Address>Hampshire</Address>
+      <PostCode>SO213JR</PostCode>
+    </Billing>
+  </Customer>
+  <Payment>
+    <CardType>Visa</CardType>
+    <CardNo>4921682832258418</CardNo>
+    <CardName>Mr Andrew J. Smith</CardName>
+    <Valid>1200</Valid>
+    <Expires>1101</Expires>
+  </Payment>
+  <Purchases>
+    <Item>
+      <Title Category='Computer' Form='Paperback' Edition='2'>The XML Companion</Title>
+      <ISBN>0201674866</ISBN>
+      <Author>Neil Bradley</Author>
+      <Publisher>Addison-Wesley</Publisher>
+      <PublishDate>October 1999</PublishDate>
+      <UnitPrice>27.95</UnitPrice>
+      <Quantity>2</Quantity>
+    </Item>
+    <Item>
+      <Title Category='Computer' Form='Paperback' Edition='2'>A Complete Guide to DB2 Universal Database</Title>
+      <ISBN>1558604820</ISBN>
+      <Author>Don Chamberlin</Author>
+      <Publisher>Morgan Kaufmann Publishers</Publisher>
+      <PublishDate>April 1998</PublishDate>
+      <UnitPrice>42.95</UnitPrice>
+      <Quantity>1</Quantity>
+    </Item>
+    <Item>
+      <Title Category='Computer' Form='Hardcover' Edition='0'>JAVA 2 Developers Handbook</Title>
+      <ISBN>0782121799</ISBN>
+      <Author>Philip Heller, Simon Roberts </Author>
+      <Publisher>Sybex, Inc.</Publisher>
+      <PublishDate>September 1998</PublishDate>
+      <UnitPrice>59.99</UnitPrice>
+      <Quantity>1</Quantity>
+    </Item>
+  </Purchases>
+  <StoreRecords/>
+  <DirectMail/>
+  <Error/>
+</Invoice>
+
+
+***Transfering a Simple Message***
+Output:
+<Data>
+  <Output>
+     <Quantity>2</Quantity>
+     <Author>Neil Bradley</Author>
+  </Output>
+  <Output>
+     <Quantity>1</Quantity>
+     <Author>Don Chamberlin</Author>
+  </Output>
+  <Output>
+     <Quantity>1</Quantity>
+     <Author>Philip Heller, Simon Roberts</Author>
+  </Output>
+</Data>
+****Transfering Sample Message using count and while loop****
+Output:::
+
+<Data>
+ <OutPut>
+  <Quantity>2</Quantity>
+  <Author>Neil Bradley</Author>
+ </OutPut>
+ <OutPut>
+  <Quantity>1</Quantity>
+  <Author>Don Chamberlin</Author>
+ </OutPut>
+ <OutPut>
+  <Quantity>1</Quantity>
+  <Author>Philip Heller, Simon Roberts </Author>
+ </OutPut>
+</Data>
+********The following example shows a more advanced transformation: which will execute faster******
+Output:::
+
+<Data>
+  <Output>
+    <Book>
+      <Quantity>2</Quantity>
+      <Author>Neil Bradley</Author>
+    </Book>
+  </Output>
+  <Output>
+    <Book>
+      <Quantity>1</Quantity>
+      <Author>Don Chamberlin</Author>
+    </Book>
+  </Output>
+  <Output>
+    <Book>
+      <Quantity>1</Quantity>
+      <Author>Philip Heller, Simon Roberts</Author>
+    </Book>
+  </Output>
+</Data>
+
+********Generate Output using operators, literals and fields******
+Output:::
+
+<Data>
+ <OutPut>
+  <Header>Start</Header>
+  <Book>
+   <Quantity>Number Of Books: 2</Quantity>
+   <Author>Name and Sure Name: Neil Bradley</Author>
+  </Book>
+  <Tailer>End</Tailer>
+ </OutPut>
+ <OutPut>
+  <Header>Start</Header>
+  <Book>
+   <Quantity>Number Of Books: 1</Quantity>
+   <Author>Name and Sure Name: Don Chamberlin</Author>
+  </Book>
+  <Tailer>End</Tailer>
+ </OutPut>
+ <OutPut>
+  <Header>Start</Header>
+  <Book>
+   <Quantity>Number Of Books: 1</Quantity>
+   <Author>Name and Sure Name: Philip Heller, Simon Roberts </Author>
+  </Book>
+  <Tailer>End</Tailer>
+ </OutPut>
+</Data>
+
+**********Add Atributes using SELECT Funtions ********
+Output::
+
+<Data>
+ <OutPut>
+  <Book Quantity="2" Author="Neil Bradley"/>
+ </OutPut>
+ <OutPut>
+  <Book Quantity="1" Author="Don Chamberlin"/>
+ </OutPut>
+ <OutPut>
+  <Book Quantity="1" Author="Philip Heller, Simon Roberts "/>
+ </OutPut>
+</Data>
+                                                                 );
+ ***** Select functions using WHERE Clause *****
+ Output::
+ <Data>
+ <Output>
+  <Book>
+   <Quantity>2</Quantity>
+   <Author>Neil Bradley</Author>
+  </Book>
+ </Output>
+</Data>
+
+What is the difference between XMLNSC and XMLNS
+:
+1.The XMLNSC parser has a new architecture that gives significant performance improvements over the XMLNS and XML parsers.
+  												1.The XML Schema 1.0 compliant validation when parsing and writing.
+  											    2.The XML Schema indicates the real data type of a field in the message instead of always treating the field as a character string.
+  												3.Base64 binary data can be automatically decoded.
+  												4.It discarded White spaces .
+
+2.The XMLNS parser is programmatic and does not use a model when parsing.
+This means that:
+                								1.All data in an XML message is treated as character strings.
+                 								2.Validation is not possible when parsing and writing.
+                 								3.It includes white spaces .
+                 
+*/
+BROKER SCHEMA com.anilnayak.esb
+CREATE COMPUTE MODULE selectFunction_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL SelectFunctionOperations();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE SelectFunctionOperations ( )
+	BEGIN
+		/*Transfering a Simple Message*/
+		SET OutputRoot.XMLNSC.Data.OutPut[]               = (SELECT R.Quantity, R.Author  FROM InputRoot.XMLNSC.Invoice.Purchases.Item[] AS R );
+		
+		/*Transfering Sample Message using count and while loop*/ 
+		DECLARE i INTEGER 1 ;
+		DECLARE count INTEGER CARDINALITY(InputRoot.XMLNSC.Invoice.Purchases.Item[]);
+		WHILE (i<=count) DO
+			
+			SET OutputRoot.XMLNSC.Data.OutPut[i].Quantity = InputRoot.XMLNSC.Invoice.Purchases.Item[i].Quantity;
+			SET OutputRoot.XMLNSC.Data.OutPut[i].Author   = InputRoot.XMLNSC.Invoice.Purchases.Item[i].Author;
+			SET i = i + 1;
+		END WHILE;
+		
+		/*The following example shows a more advanced transformation: which will execute faster*/ 
+		
+		SET OutputRoot.XMLNSC.Data.OutPut[]               = (
+		                                                       SELECT R.Quantity AS Book.Quantity, 
+		                                                              R.Author AS Book.Author
+		                                                              FROM InputRoot.XMLNSC.Invoice.Purchases.Item[] AS R
+		                                                              );
+	   
+	   /* Generate Output using operators, literals and fields */ 
+	   SET OutputRoot.XMLNSC.Data.OutPut[]                = (
+	                                                          SELECT  'Start' AS Header,
+	                                                                  'Number Of Books: '   || R.Quantity AS Book.Quantity,
+                                                                      'Name and Sure Name: '|| R.Author AS Book.Author,
+	                                                                   'End' AS Tailer
+	                                                                  FROM InputRoot.XMLNSC.Invoice.Purchases.Item[] AS R
+	                                                                  ); 
+	                                                                  
+	  /* Add Atributes using SELECT Funtions */
+	  
+	  SET OutputRoot.XMLNSC.Data.OutPut[]                 = (
+	                                                          SELECT R.Quantity AS Book.(XMLNSC.Attribute)Quantity, 
+                                                                     R.Author   AS Book.(XMLNSC.Attribute)Author
+                                                                     FROM InputRoot.XMLNSC.Invoice.Purchases.Item[] AS R
+                                                                     );
+     /* Select functions using WHERE Clause */
+     SET OutputRoot.XMLNSC.Data.Output[]                  = (
+                                                              SELECT R.Quantity AS Book.Quantity, 
+                                                                     R.Author   AS Book.Author
+                                                                     FROM InputRoot.XMLNSC.Invoice.Purchases.Item[] AS R
+                                                                     WHERE R.Quantity = 2
+                                                                  );                                                                                  
+	END;
+END MODULE;

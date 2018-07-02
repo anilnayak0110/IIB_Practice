@@ -1,0 +1,35 @@
+<project name="Github" default="run">
+<target name="run" description="">
+<property name="mqsi.dir" value="C:\Program Files\IBM\IIB\10.0.0.6\server\bin\" />
+<property name="bar" value="C:\Users\bandaru\IBM\IIBT10\workspace\AnilNayakIIB10\GitHub\com\anilnayak\esb\github.bar" />
+<property name="ipaddress" value="localhost" />
+<property name="port" value="3333" />
+<property name="queuemgr" value="QM" />
+<property name="broker" value="TESTNODE_bandaru" />
+<property name="exegroup" value="anil" />
+<antcall target="mqsideploy.deploybar" />
+</target>
+
+<!--
+Target to build the broker archive using mqsicreatebar
+-->
+<target name="mqsideploy.deploybar">
+<!-- <exec executable="${mqsi.dir}\mqsideploy.bat" spawn="false"> -->
+<exec executable="cmd" failonerror="true" logError="true" vmlauncher="false" append="true">
+<arg value="/c" />
+<arg value= "${mqsi.dir}\mqsideployscript.bat" />
+<arg value="-i" />
+<arg value="${ipaddress}" />
+<arg value="-p" />
+<arg value="${port}" />
+<arg value="-q" />
+<arg value="${queuemgr}" />
+<arg value="-b" />
+<arg value="${broker}" />
+<arg value="-e" />
+<arg value="${exegroup}" />
+<arg value="-a" />
+<arg value="${bar}" />
+</exec>
+</target>
+</project>

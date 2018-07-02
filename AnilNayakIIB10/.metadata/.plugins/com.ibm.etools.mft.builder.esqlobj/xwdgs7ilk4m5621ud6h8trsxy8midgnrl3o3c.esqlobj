@@ -1,0 +1,148 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL InsertWithOneQuery();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;	
+
+
+
+	CREATE PROCEDURE InsertWithOneQuery( )
+	BEGIN
+
+		DECLARE lineRef REFERENCE TO InputRoot.XMLNSC.EmployeeInfo.Transaction[>];
+		DECLARE ItemCount INTEGER 1;
+		DECLARE lineItem ROW;
+		
+		DECLARE itemQuery CHARACTER '';
+		DECLARE insertValuesItem CHARACTER 'INTO EMPLOYEE(ID,ENAME,Salary)
+		VALUES(?,?,?)';
+
+		ItemLine : WHILE LASTMOVE(lineRef) DO
+			SET Environment.SQLBox[] = PASSTHRU('SELECT EMPLOYEE_SEQ.NEXTVAL FROM DUAL') ;
+			SET itemQuery = itemQuery || insertValuesItem;
+			SET lineItem.Row.col[ItemCount] VALUE = Environment.SQLBox.NEXTVAL;
+			SET lineItem.Row.col[ItemCount+1] VALUE = lineRef.Name;
+			SET lineItem.Row.col[ItemCount+2] VALUE = '';
+			SET ItemCount = ItemCount+3; --This will help to save next row.
+			MOVE lineRef NEXTSIBLING;
+		END WHILE ItemLine;
+
+
+
+		PASSTHRU('INSERT ALL ' || itemQuery || 'SELECT 1 FROM DUAL', lineItem.Row.col[]);
+
+	END;
+	CREATE PROCEDURE InsertDCOTxnInfo ( )
+	BEGIN
+		DECLARE lineRef REFERENCE TO InputRoot.XMLNSC.ACHDirectCredit.Transaction[>];
+		DECLARE ItemCount INTEGER 1;
+		DECLARE lineItem ROW;
+		
+		DECLARE itemQuery CHARACTER '';
+		DECLARE insertValuesItem CHARACTER 'INTO DIRECT_CREDIT_OUTWARD_TXN
+		(
+		  	DCO_TXN_INF_ID,
+		  	DCO_GRP_HDR_ID_TXN_INFO_FK,
+		  	TXN_REF,
+		  	USER_REF,
+		  	AMOUNT,
+		  	BENEF_BANK,
+		  	BENEF_ACC,
+		  	BENEF_NAME,
+		  	BENEF_ID,
+		  	BENEF_ID_TYPE,
+		  	PURP_OF_TRANSFER,
+		  	DETAILS_OF_PMTS,
+		  	STATUS,
+		  	DESCRIPTION,
+		  	CBS_TRAN_REF,
+		  	CBS_PAY_REF,
+		  	EXEC_DESC,
+		  	END_TO_END_ID,
+		  	MSG_ID,
+		  	TXN_ID,
+		  	CBO_GRP_STATUS,
+		  	FAULT_CODE,
+		  	FAULT_STRING,
+		  	CBO_TXN_STATUS,
+		  	CBS_REQUEST_MESSAGE
+		  	) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+		  	
+		  	
+		ItemLine : WHILE LASTMOVE(lineRef) DO
+			SET Environment.SQLBox[] = PASSTHRU('SELECT DCO_SEQ.NEXTVAL FROM DUAL') ;
+			SET itemQuery = itemQuery || insertValuesItem;
+			SET lineItem.Row.col[ItemCount] VALUE = Environment.SQLBox.NEXTVAL;
+			SET lineItem.Row.col[ItemCount+1] VALUE = 111;
+			SET lineItem.Row.col[ItemCount+2] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+3] VALUE = COALESCE(lineRef.UserReference,'');
+			SET lineItem.Row.col[ItemCount+4] VALUE = lineRef.Amount;
+			SET lineItem.Row.col[ItemCount+5] VALUE = lineRef.BeneficiaryBank;
+			SET lineItem.Row.col[ItemCount+6] VALUE = lineRef.BeneficiaryAccount;
+			SET lineItem.Row.col[ItemCount+7] VALUE = COALESCE(lineRef.BeneficiaryName,'');
+			SET lineItem.Row.col[ItemCount+8] VALUE = COALESCE(lineRef.BeneficiaryId,'');
+			SET lineItem.Row.col[ItemCount+9] VALUE = COALESCE(lineRef.BeneficiaryIdType,'');
+			SET lineItem.Row.col[ItemCount+10] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+11] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+12] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+13] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+14] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+15] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+16] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+17] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+18] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+19] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+20] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+21] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+22] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+23] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+24] VALUE = lineRef.TransactionReference;
+			SET lineItem.Row.col[ItemCount+25] VALUE = lineRef.TransactionReference;
+			SET ItemCount = ItemCount+26; --This will help to save next row.
+			MOVE lineRef NEXTSIBLING;
+		END WHILE ItemLine;
+
+"DCO_TXN_INF_ID" NUMBER NOT NULL,
+		"DCO_GRP_HDR_ID_TXN_INFO_FK" NUMBER NOT NULL,
+		"TXN_REF" VARCHAR2(16 CHAR), M
+		"USER_REF" VARCHAR2(35 CHAR), O
+		"AMOUNT" NUMBER(18 , 5), M
+		"BENEF_BANK" VARCHAR2(35 CHAR), M
+		"BENEF_ACC" VARCHAR2(30 CHAR), M
+		"BENEF_NAME" VARCHAR2(140 CHAR), O
+		"BENEF_ID" VARCHAR2(35 CHAR), O
+		"BENEF_ID_TYPE" VARCHAR2(35 CHAR), O
+		"PURP_OF_TRANSFER" VARCHAR2(10 CHAR), O
+		"DETAILS_OF_PMTS" VARCHAR2(140 CHAR), O
+		"STATUS" VARCHAR2(50 CHAR), O
+		"DESCRIPTION" VARCHAR2(500 CHAR), O
+		"CBS_TRAN_REF" VARCHAR2(40 CHAR), O 
+		"CBS_PAY_REF" VARCHAR2(40 CHAR), O
+		"EXEC_DESC" VARCHAR2(2000 CHAR), O
+		"END_TO_END_ID" VARCHAR2(48 CHAR), M
+		"MSG_ID" VARCHAR2(25 CHAR), O
+		"TXN_ID" VARCHAR2(25 CHAR), O
+		"CBO_GRP_STATUS" VARCHAR2(40), O
+		"FAULT_CODE" VARCHAR2(40), O
+		"FAULT_STRING" VARCHAR2(500), O
+		"CBO_TXN_STATUS" VARCHAR2(40), O
+		"CBS_REQUEST_MESSAGE" CLOB O
+
+		PASSTHRU('INSERT ALL ' || itemQuery || 'SELECT 1 FROM DUAL', lineItem.Row.col[]);
+	END;

@@ -1,0 +1,10 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	
+	BEGIN
+		CALL updateData();
+		RETURN TRUE;
+	END;
+CREATE PROCEDURE updateData ( )
+BEGIN
+	UPDATE Database.{SCHEMA_NAME}.{TABLE} AS E SET NAME = 'Gayatree' WHERE EID=10;
+END;

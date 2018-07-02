@@ -1,0 +1,50 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL InsertWithOneQuery();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;	
+
+
+
+	CREATE PROCEDURE InsertWithOneQuery( )
+	BEGIN
+
+		DECLARE lineRef REFERENCE TO InputRoot.XMLNSC.EmployeeInfo.Transaction[>];
+		DECLARE ItemCount INTEGER 1;
+		DECLARE lineItem ROW;
+		
+		DECLARE itemQuery CHARACTER '';
+		DECLARE insertValuesItem CHARACTER 'INTO EMPLOYEE(ID,ENAME,Salary)
+		VALUES(?,?,?)';
+
+		ItemLine : WHILE LASTMOVE(lineRef) DO
+			SET Environment.SQLBox[] = PASSTHRU('SELECT EMPLOYEE_SEQ.NEXTVAL FROM DUAL') ;
+			SET itemQuery = itemQuery || insertValuesItem;
+			SET lineItem.Row.col[ItemCount] VALUE = Environment.SQLBox.NEXTVAL;
+			SET lineItem.Row.col[ItemCount+1] VALUE = lineRef.Name;
+			SET lineItem.Row.col[ItemCount+2] VALUE = lineRef.Salary;
+			SET ItemCount = ItemCount+3; --This will help to save next row.
+			MOVE lineRef NEXTSIBLING;
+		END WHILE ItemLine;
+
+
+
+		PASSTHRU('INSERT ALL ' || itemQuery || 'SELECT 1 FROM DUAL', lineItem.Row.col[]);
+
+	END;

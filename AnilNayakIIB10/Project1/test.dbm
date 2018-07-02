@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.8.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SQLConstraints="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore" xmlns:SQLTables="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+  <SQLSchema:Database xmi:id="_ACV1IPtbEee4UYoga_XIgA" name="test" vendor="MySql" version="5.1" schemas="_AEvB0PtbEee4UYoga_XIgA">
+    <eAnnotations xmi:id="_ACV1IftbEee4UYoga_XIgA" source="ConnectionURI">
+      <details xmi:id="_ACV1IvtbEee4UYoga_XIgA" key="ConnectionKey" value="database"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema xmi:id="_AEvB0PtbEee4UYoga_XIgA" name="test" tables="_AEvo4PtbEee4UYoga_XIgA _AEwP8PtbEee4UYoga_XIgA _AEwP-PtbEee4UYoga_XIgA _AExeEPtbEee4UYoga_XIgA" database="_ACV1IPtbEee4UYoga_XIgA"/>
+  <SQLTables:PersistentTable xmi:id="_AEvo4PtbEee4UYoga_XIgA" name="blob_test" schema="_AEvB0PtbEee4UYoga_XIgA">
+    <columns xmi:id="_AEvo4ftbEee4UYoga_XIgA" name="BLOB_DATA" description="">
+      <containedType xsi:type="SQLDataTypes:BinaryStringDataType" xmi:id="_AEvo4vtbEee4UYoga_XIgA" name="BLOB" primitiveType="BINARY_LARGE_OBJECT"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_AEwP8PtbEee4UYoga_XIgA" name="employee" schema="_AEvB0PtbEee4UYoga_XIgA">
+    <columns xmi:id="_AEwP8ftbEee4UYoga_XIgA" name="EID" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" xmi:id="_AEwP8vtbEee4UYoga_XIgA" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns xmi:id="_AEwP8_tbEee4UYoga_XIgA" name="ENAME" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_AEwP9PtbEee4UYoga_XIgA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_AEwP9ftbEee4UYoga_XIgA" name="Salary" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_AEwP9vtbEee4UYoga_XIgA" name="DECIMAL" primitiveType="DECIMAL" precision="10" scale="2"/>
+    </columns>
+    <constraints xsi:type="SQLConstraints:PrimaryKey" xmi:id="_AEwP9_tbEee4UYoga_XIgA" name="PRIMARY" members="_AEwP8ftbEee4UYoga_XIgA"/>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_AEwP-PtbEee4UYoga_XIgA" name="sample" schema="_AEvB0PtbEee4UYoga_XIgA">
+    <columns xmi:id="_AEwP-ftbEee4UYoga_XIgA" name="STATUS" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_AEwP-vtbEee4UYoga_XIgA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_AEwP-_tbEee4UYoga_XIgA" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_AEwP_PtbEee4UYoga_XIgA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_AEwP_ftbEee4UYoga_XIgA" name="FILE_NAME" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_AEwP_vtbEee4UYoga_XIgA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_AExeEPtbEee4UYoga_XIgA" name="test" schema="_AEvB0PtbEee4UYoga_XIgA">
+    <columns xmi:id="_AExeEftbEee4UYoga_XIgA" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_AExeEvtbEee4UYoga_XIgA" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+</xmi:XMI>

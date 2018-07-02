@@ -1,0 +1,68 @@
+BROKER SCHEMA com.anilnayak.esb
+/*
+  <customer>
+	<name>Anil</name>
+	<items>
+		<item>
+			<name>Laptop</name>
+			<amount>100</amount>
+		</item>
+		<item>
+			<name>mouse</name>
+			<amount>10</amount>
+		</item>
+		<item>
+			<name>keyboard</name>
+			<amount>30</amount>
+		</item>
+		
+	</items>
+</customer>
+*/
+DECLARE SCHEMA_NAME EXTERNAL CHARACTER;
+DECLARE TABLE_NAME EXTERNAL CHARACTER;
+
+CREATE COMPUTE MODULE blobInsert_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		CALL BlobInsert();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE BlobInsert ( )
+	BEGIN
+		DECLARE profRef REFERENCE TO InputRoot.Properties;
+		DECLARE messageBitStream BLOB ASBITSTREAM(InputRoot.XMLNSC,profRef.Encoding,profRef.CodedCharSetId );
+		INSERT INTO Database.{SCHEMA_NAME}.{TABLE_NAME} (BLOB_DATA) VALUES(messageBitStream);
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	END;
+END MODULE;

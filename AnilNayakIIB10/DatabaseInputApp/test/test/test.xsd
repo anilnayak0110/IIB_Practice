@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://test/test" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:testtest="http://test/test">
+  <!-- Message definition generated from C:\Users\bandaru\IBM\IIBT10\workspace\AnilNayakIIB10\Project1\test.dbm -->
+
+<!-- Complex type for test.test.employee -->
+    <xsd:complexType name="employeeType">
+    <xsd:sequence>
+      <xsd:element name="EID" type="xsd:int"/>
+      <xsd:element name="ENAME">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="50"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="Salary" type="xsd:decimal"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<!-- Global element for test.test.employee -->
+    <xsd:element ibmSchExtn:docRoot="true" name="employee" type="testtest:employeeType"/>
+</xsd:schema>

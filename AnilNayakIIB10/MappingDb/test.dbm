@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.8.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SQLConstraints="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore" xmlns:SQLTables="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+  <SQLSchema:Database xmi:id="_PiPqoAGbEeic5bJ-xEdxgw" name="test" vendor="MySql" version="5.1" schemas="_PiT8EAGbEeic5bJ-xEdxgw">
+    <eAnnotations xmi:id="_PiPqoQGbEeic5bJ-xEdxgw" source="ConnectionURI">
+      <details xmi:id="_PiPqogGbEeic5bJ-xEdxgw" key="ConnectionKey" value="test"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema xmi:id="_PiT8EAGbEeic5bJ-xEdxgw" name="test" tables="_PiT8EQGbEeic5bJ-xEdxgw _PiT8FAGbEeic5bJ-xEdxgw _PiT8HAGbEeic5bJ-xEdxgw _PiT8IwGbEeic5bJ-xEdxgw _PiT8JgGbEeic5bJ-xEdxgw" database="_PiPqoAGbEeic5bJ-xEdxgw"/>
+  <SQLTables:PersistentTable xmi:id="_PiT8EQGbEeic5bJ-xEdxgw" name="blob_test" schema="_PiT8EAGbEeic5bJ-xEdxgw">
+    <columns xmi:id="_PiT8EgGbEeic5bJ-xEdxgw" name="BLOB_DATA" description="">
+      <containedType xsi:type="SQLDataTypes:BinaryStringDataType" xmi:id="_PiT8EwGbEeic5bJ-xEdxgw" name="BLOB" primitiveType="BINARY_LARGE_OBJECT"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_PiT8FAGbEeic5bJ-xEdxgw" name="employee" schema="_PiT8EAGbEeic5bJ-xEdxgw">
+    <columns xmi:id="_PiT8FQGbEeic5bJ-xEdxgw" name="EID" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" xmi:id="_PiT8FgGbEeic5bJ-xEdxgw" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns xmi:id="_PiT8FwGbEeic5bJ-xEdxgw" name="ENAME" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8GAGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_PiT8GQGbEeic5bJ-xEdxgw" name="Salary" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_PiT8GgGbEeic5bJ-xEdxgw" name="DECIMAL" primitiveType="DECIMAL" precision="10" scale="2"/>
+    </columns>
+    <constraints xsi:type="SQLConstraints:PrimaryKey" xmi:id="_PiT8GwGbEeic5bJ-xEdxgw" name="PRIMARY" members="_PiT8FQGbEeic5bJ-xEdxgw"/>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_PiT8HAGbEeic5bJ-xEdxgw" name="sample" schema="_PiT8EAGbEeic5bJ-xEdxgw">
+    <columns xmi:id="_PiT8HQGbEeic5bJ-xEdxgw" name="STATUS" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8HgGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_PiT8HwGbEeic5bJ-xEdxgw" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8IAGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_PiT8IQGbEeic5bJ-xEdxgw" name="FILE_NAME" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8IgGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_PiT8IwGbEeic5bJ-xEdxgw" name="sample1" schema="_PiT8EAGbEeic5bJ-xEdxgw">
+    <columns xmi:id="_PiT8JAGbEeic5bJ-xEdxgw" name="name" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8JQGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="5"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_PiT8JgGbEeic5bJ-xEdxgw" name="test" schema="_PiT8EAGbEeic5bJ-xEdxgw">
+    <columns xmi:id="_PiT8JwGbEeic5bJ-xEdxgw" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_PiT8KAGbEeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+</xmi:XMI>

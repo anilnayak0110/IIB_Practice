@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<xmi:XMI xmlns:datamodelversion="http://www.ibm.com/com.ibm.datatools.core/model/data/1.8.0.0" xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SQLConstraints="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore" xmlns:SQLDataTypes="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore" xmlns:SQLSchema="http:///org/eclipse/datatools/modelbase/sql/schema.ecore" xmlns:SQLTables="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+  <SQLSchema:Database xmi:id="_jlZREAG1Eeic5bJ-xEdxgw" name="test" vendor="MySql" version="5.1" schemas="_jlZREwG1Eeic5bJ-xEdxgw">
+    <eAnnotations xmi:id="_jlZREQG1Eeic5bJ-xEdxgw" source="ConnectionURI">
+      <details xmi:id="_jlZREgG1Eeic5bJ-xEdxgw" key="ConnectionKey" value="test"/>
+    </eAnnotations>
+  </SQLSchema:Database>
+  <SQLSchema:Schema xmi:id="_jlZREwG1Eeic5bJ-xEdxgw" name="test" tables="_jlZRFAG1Eeic5bJ-xEdxgw _jlZRFgG1Eeic5bJ-xEdxgw _jlZRHgG1Eeic5bJ-xEdxgw _jlZRJQG1Eeic5bJ-xEdxgw _jlZRKAG1Eeic5bJ-xEdxgw _jlZRLQG1Eeic5bJ-xEdxgw" database="_jlZREAG1Eeic5bJ-xEdxgw"/>
+  <SQLTables:PersistentTable xmi:id="_jlZRFAG1Eeic5bJ-xEdxgw" name="blob_test" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRFQG1Eeic5bJ-xEdxgw" name="BLOB_DATA" description=""/>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_jlZRFgG1Eeic5bJ-xEdxgw" name="employee" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRFwG1Eeic5bJ-xEdxgw" name="EID" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:IntegerDataType" xmi:id="_jlZRGAG1Eeic5bJ-xEdxgw" name="INT" primitiveType="INTEGER"/>
+    </columns>
+    <columns xmi:id="_jlZRGQG1Eeic5bJ-xEdxgw" name="ENAME" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRGgG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_jlZRGwG1Eeic5bJ-xEdxgw" name="Salary" description="" nullable="false">
+      <containedType xsi:type="SQLDataTypes:FixedPrecisionDataType" xmi:id="_jlZRHAG1Eeic5bJ-xEdxgw" name="DECIMAL" primitiveType="DECIMAL" precision="8" scale="2"/>
+    </columns>
+    <constraints xsi:type="SQLConstraints:PrimaryKey" xmi:id="_jlZRHQG1Eeic5bJ-xEdxgw" name="PRIMARY" members="_jlZRFwG1Eeic5bJ-xEdxgw"/>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_jlZRHgG1Eeic5bJ-xEdxgw" name="sample" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRHwG1Eeic5bJ-xEdxgw" name="STATUS" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRIAG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_jlZRIQG1Eeic5bJ-xEdxgw" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRIgG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+    <columns xmi:id="_jlZRIwG1Eeic5bJ-xEdxgw" name="FILE_NAME" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRJAG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_jlZRJQG1Eeic5bJ-xEdxgw" name="sample1" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRJgG1Eeic5bJ-xEdxgw" name="name" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRJwG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="5"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_jlZRKAG1Eeic5bJ-xEdxgw" name="sample_test" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRKQG1Eeic5bJ-xEdxgw" name="name" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRKgG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="10"/>
+    </columns>
+    <columns xmi:id="_jlZRKwG1Eeic5bJ-xEdxgw" name="job" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRLAG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="20"/>
+    </columns>
+  </SQLTables:PersistentTable>
+  <SQLTables:PersistentTable xmi:id="_jlZRLQG1Eeic5bJ-xEdxgw" name="test" schema="_jlZREwG1Eeic5bJ-xEdxgw">
+    <columns xmi:id="_jlZRLgG1Eeic5bJ-xEdxgw" name="FAULT_CODE" description="">
+      <containedType xsi:type="SQLDataTypes:CharacterStringDataType" xmi:id="_jlZRLwG1Eeic5bJ-xEdxgw" name="VARCHAR" primitiveType="CHARACTER_VARYING" length="50"/>
+    </columns>
+  </SQLTables:PersistentTable>
+</xmi:XMI>

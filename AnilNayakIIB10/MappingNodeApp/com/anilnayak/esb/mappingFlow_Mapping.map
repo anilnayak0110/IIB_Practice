@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="com.anilnayak.esb" version="8.0.5.0" xmlns:map="com.anilnayak.esb">
+    <input path="/com/anilnayak/esb/mapping.xsd"/>
+    <output path="/com/anilnayak/esb/mapcsv.xsd" var="var1"/>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="mappingFlow_Mapping">
+        <input path="mb:msg(P,assembly,XMLNSC,Properties)" var="ComIbmMessageAssembly_P"/>
+        <output path="$var1/mb:msg(mapcsv,assembly,DFDL,Properties)" var="MessageAssembly"/>
+        <move>
+            <input path="$ComIbmMessageAssembly_P/Properties"/>
+            <output path="$MessageAssembly/Properties"/>
+        </move>
+        <local>
+            <input path="$ComIbmMessageAssembly_P/P"/>
+            <output path="$MessageAssembly/mapcsv"/>
+            <foreach>
+                <input path="S"/>
+                <output path="record"/>
+                <move>
+                    <input path="H1"/>
+                    <output path="H1"/>
+                </move>
+                <move>
+                    <input path="H2"/>
+                    <output path="H2"/>
+                </move>
+                <move>
+                    <input path="H3"/>
+                    <output path="H3"/>
+                </move>
+            </foreach>
+        </local>
+    </mappingDeclaration>
+</mappingRoot>

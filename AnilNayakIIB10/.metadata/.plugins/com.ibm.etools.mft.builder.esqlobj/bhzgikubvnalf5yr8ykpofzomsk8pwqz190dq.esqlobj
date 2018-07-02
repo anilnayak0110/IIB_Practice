@@ -1,0 +1,29 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyMessageHeaders();
+	    CALL CopyEntireMessage();
+	    CALL TestXml();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		--SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE TestXml ( )
+	BEGIN
+		SET OutputRoot.XMLNSC.Connections.Id                        = InputLocalEnvironment.TCPIP.Input.ConnectionDetails.Id;
+		SET OutputRoot.XMLNSC.Connections.ConnectionOpenTime        = InputLocalEnvironment.TCPIP.Input.ConnectionDetails.OpenTimestamp;
+		SET OutputRoot.XMLNSC.Connections.ConnectionCloedTime       = InputLocalEnvironment.TCPIP.Input.ConnectionDetails.CloseTimestamp;
+		SET OutputRoot.XMLNSC.Connections.sequenceInputNumber       = InputLocalEnvironment.TCPIP.Input.ConnectionDetails.SequenceNumber.InputRecord;
+		SET OutputRoot.XMLNSC.Connections.sequenceOutPutNumber      = InputLocalEnvironment.TCPIP.Input.ConnectionDetails.SequenceNumber.OutputRecord;
+	END;

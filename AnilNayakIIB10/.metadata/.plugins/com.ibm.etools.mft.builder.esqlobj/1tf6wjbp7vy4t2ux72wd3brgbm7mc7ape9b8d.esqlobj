@@ -1,0 +1,4 @@
+CREATE PROCEDURE getCacheValueFromWXS (IN chrMapName CHARACTER,IN chrKey CHARACTER)
+RETURNS BOOLEAN
+LANGUAGE JAVA
+EXTERNAL NAME "com.anilnayak.java.GlobalCache.putInCache";

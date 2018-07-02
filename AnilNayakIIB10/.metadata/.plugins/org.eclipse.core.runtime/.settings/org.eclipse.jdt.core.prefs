@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.core.classpathVariable.COMMON_CLASSES_HOME=C\:/Program Files/IBM/IIB/10.0.0.6/common/classes
+org.eclipse.jdt.core.classpathVariable.JCN_HOME=C\:/Program Files/IBM/IIB/10.0.0.6/tools/plugins/com.ibm.etools.mft.jcn_10.0.600.v20160819-1112/
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=C\:/Program Files/Java/jdk1.7.0_03/jre/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_SRC=C\:/Program Files/Java/jdk1.7.0_03/src.zip
+org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
+org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled

@@ -1,0 +1,4 @@
+CREATE PROCEDURE Salary (IN amount FLOAT) 
+		RETURNS FLOAT 
+		LANGUAGE JAVA
+		EXTERNAL NAME "eidiko.esqlmappings.esqljavafloat.Salary";

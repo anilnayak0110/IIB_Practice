@@ -1,0 +1,22 @@
+
+
+Importing file: C:\Users\bandaru\IBM\IIBT10\workspace\AnilNayakIIB10\SopaWebservices\arith.wsdl
+
+The WSDL import will proceed with bindings arithSOAP.
+Creating wsdl schema document for file:///C:/Users/bandaru/IBM/IIBT10/workspace/AnilNayakIIB10/SopaWebservices/arith.wsdl.
+Parsing wsdl binding {http://www.example.org/arith/}arithSOAP.
+Parsing wsdl binding input Arithmetic.
+Parsing wsdl binding output Arithmetic.
+Processing doc style for operation Arithmetic.
+Populating WSDL schema arith.xsd.
+Creating file arith.xsd in the workspace.
+Creating file arith_InlineSchema1.xsd in the workspace.
+Copying source WSDL arith.wsdl to arith.wsdl.
+
+Elapsed time processing this message definition file: 0.303 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

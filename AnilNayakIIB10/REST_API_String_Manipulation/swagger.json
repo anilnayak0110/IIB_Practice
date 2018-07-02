@@ -1,0 +1,63 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "REST_API_String_Manipulation",
+    "version" : "1.0.0",
+    "description" : "REST_API_String_Manipulation"
+  },
+  "paths" : {
+    "/string_manipulation" : {
+      "post" : {
+        "operationId" : "postString_manipulation",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          },
+          "400" : {
+            "description" : "Bad Request."
+          },
+          "405" : {
+            "description" : "Method Not Found."
+          },
+          "500" : {
+            "description" : "Internal Server Error."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a string_manipulation",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/Request"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/rest_api_string_manipulation/v1",
+  "definitions" : {
+    "Request" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Response" : {
+      "type" : "object",
+      "properties" : {
+        "FullName" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

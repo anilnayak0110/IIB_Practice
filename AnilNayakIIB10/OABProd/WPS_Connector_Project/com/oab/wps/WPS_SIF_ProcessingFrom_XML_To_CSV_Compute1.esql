@@ -1,0 +1,54 @@
+BROKER SCHEMA com.oab.wps
+
+
+CREATE COMPUTE MODULE WPS_SIF_ProcessingFrom_XML_To_CSV_Compute1
+	DECLARE LOG4J_CONF_FILE EXTERNAL CHARACTER;
+	DECLARE rc BOOLEAN;
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		/*initialising Log4j*/
+		CALL initLog4j(LOG4J_CONF_FILE) INTO rc;
+		IF ( rc = FALSE ) THEN
+			DECLARE msg CHARACTER ;
+			SET msg = 'Log4J Initialization failed.';
+		END IF;
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+	DECLARE Exce CHARACTER;
+	SET OutputRoot.MQMD = Environment.MQMD;
+	
+	IF FIELDNAME(InputExceptionList.[1]) IS NULL THEN
+		
+		DECLARE WpsRef REFERENCE TO OutputRoot.XMLNSC;
+		CREATE LASTCHILD OF OutputRoot.XMLNSC AS WpsRef NAME 'WPSValidationResponse';
+		SET WpsRef.ResponseCode = 'WPS000';
+		SET WpsRef.ResponseString = 'Request Received';
+		CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','Sending Ackknoledgement to channel') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','************END************') INTO rc;
+	ELSE	
+		
+		SET Exce = com.oab.exceptionhandler.getExceptionDesc(InputRoot,OutputRoot,InputExceptionList);
+		DECLARE achRef REFERENCE TO OutputRoot.XMLNSC;
+		CREATE LASTCHILD OF OutputRoot.XMLNSC AS achRef NAME 'WPSValidationResponse';
+		SET achRef.ResponseCode = 'WPS99';
+		SET achRef.ResponseString = Exce;
+		CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','Sending failure Ackknoledgement to channel') INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','Exception :'||Exce) INTO rc;
+		CALL writeToLogFile(MessageFlowLabel, 'WPS_INFO', 'INFO','************END************') INTO rc;
+	END IF;
+	END;
+END MODULE;

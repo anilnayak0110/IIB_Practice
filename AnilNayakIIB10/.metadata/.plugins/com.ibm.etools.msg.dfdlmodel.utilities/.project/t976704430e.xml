@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="MQXsdValidations">
+  <XSDCollection href="platform:/resource/MQXsdValidations/myxml.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/MQXsdValidations/myxml.xsd#//Employees;XSDElementDeclaration" name="Employees"/>
+  </XSDCollection>
+</MessageBroker>

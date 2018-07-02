@@ -1,0 +1,4 @@
+CREATE PROCEDURE GetGrossSalary (IN salary FLOAT)
+RETURNS FLOAT
+LANGUAGE JAVA
+EXTERNAL NAME "com.test.GetSalary.getGrossSalary";
