@@ -21,8 +21,8 @@ public class sign {
 	 public static void main(String[] args) {
 		
 	String keyStore = "C:/IIBWorkspace/OmanArabBank/DigitalSignAndVerify_XML_OAB/src/resources/OAB.jks";
-	 String keyPass = "oab"; 
-	String alias = "oab_ach"; 
+	 String keyPass = "o"; 
+	String alias = "o"; 
 	String orgtxt = "";
 	String signtxt = "mrhBTbBdF8y4EjArL0jjvWJ3wLiq+Y71S4nPMtVyuuN6L831HTSREcASy2jGoxL4C25BWAs7kb+R94OcoPha7P4dGVjGxspFcB0qd4F+uk0nozfPr8rdArzwQRkWsCDEKnZGzy/Dq78WRux+t0jhvjRQBnzqvhWucR26BA9d1AoZ7/VUSgdzQgTIA21dAsHQUWgyeXOW76CClnCr4KR0LEajRKEdLRSeRbR3ocGai2qwRUig/3DhpcpnxPvsecZCyQ/z12pmWFMQWUUestm+jPVUnyPiotH/zTKCyhtuV5fgweCWjtUynaR9WOwxRfSBi66OHuawdZUPTJAgWOQdGw==";
 	
@@ -40,7 +40,7 @@ public class sign {
 			KeyStore key = loadKeyStore(new File(keyStore), keyPass, "JKS");
 			sig = Signature.getInstance("SHA256withRSA");
 			if (type.equalsIgnoreCase("sign")) {
-				PrivateKey privateKey = (PrivateKey) key.getKey("oab",
+				PrivateKey privateKey = (PrivateKey) key.getKey("o",
 						keyPass.toCharArray());
 				// sig.initSign((PrivateKey) key.getKey(alias,
 				// pass.toCharArray()));
@@ -68,13 +68,13 @@ public class sign {
 
 			e.printStackTrace();
 		}
-		System.out.println("digital sign value oab testOAB" + digSignVal);
+		System.out.println("digital sign value testOAB" + digSignVal);
 		return digSignVal;
 	}
 	public static Boolean verifySign(String orginalTxt,String signtTxt, String keyStore,String keyPass)
 	{
 		Signature sig;
-		String alias = "oab";
+		String alias = "o";
 		boolean val = false;
 		
 		try {
